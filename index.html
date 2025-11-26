@@ -5,366 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Restaurant Menu</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
-
-        .header {
-            background: #2c3e50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .table-info {
-            background: #34495e;
-            padding: 10px;
-            text-align: center;
-            font-size: 1.2em;
-        }
-
-        .categories {
-            display: flex;
-            background: #ecf0f1;
-            padding: 15px;
-            overflow-x: auto;
-            gap: 10px;
-        }
-
-        .category-btn {
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .category-btn.active, .category-btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-
-        .menu-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .menu-item {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .menu-item:hover {
-            transform: translateY(-5px);
-            border-color: #3498db;
-        }
-
-        .item-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .item-name {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-
-        .item-description {
-            color: #7f8c8d;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-        }
-
-        .item-price {
-            font-size: 1.4em;
-            color: #e74c3c;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .quantity-display {
-            font-size: 1.2em;
-            font-weight: bold;
-            min-width: 30px;
-            text-align: center;
-        }
-
-        .add-to-cart {
-            width: 100%;
-            padding: 10px;
-            background: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background 0.3s ease;
-        }
-
-        .add-to-cart:hover {
-            background: #219a52;
-        }
-
-        .cart-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-top: 3px solid #bdc3c7;
-        }
-
-        .cart-items {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .cart-total {
-            font-size: 1.5em;
-            font-weight: bold;
-            text-align: right;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-
-        .order-form {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #bdc3c7;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .submit-order {
-            width: 100%;
-            padding: 15px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .submit-order:hover {
-            background: #c0392b;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            font-size: 1.2em;
-            color: #7f8c8d;
-        }
-
-        .error {
-            text-align: center;
-            padding: 40px;
-            color: #e74c3c;
-            font-size: 1.2em;
-        }
-
-        @media (max-width: 768px) {
-            .menu-items {
-                grid-template-columns: 1fr;
-            }
-            
-            .categories {
-                flex-wrap: wrap;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; }
+        .header { background: #2c3e50; color: white; padding: 20px; text-align: center; }
+        .table-info { background: #34495e; padding: 10px; text-align: center; font-size: 1.2em; }
+        .categories { display: flex; background: #ecf0f1; padding: 15px; overflow-x: auto; gap: 10px; }
+        .category-btn { padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 25px; cursor: pointer; }
+        .category-btn.active, .category-btn:hover { background: #2980b9; }
+        .menu-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; }
+        .menu-item { background: white; border-radius: 10px; padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .item-image { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+        .item-name { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-bottom: 5px; }
+        .item-description { color: #7f8c8d; margin-bottom: 10px; font-size: 0.9em; }
+        .item-price { font-size: 1.4em; color: #e74c3c; font-weight: bold; margin-bottom: 15px; }
+        .quantity-controls { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .quantity-btn { width: 30px; height: 30px; background: #3498db; color: white; border: none; border-radius: 50%; cursor: pointer; }
+        .quantity-display { font-size: 1.2em; font-weight: bold; min-width: 30px; text-align: center; }
+        .add-to-cart { width: 100%; padding: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .debug-info { background: #f8f9fa; padding: 15px; margin: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🍽️ Hotel Restaurant</h1>
-            <p>Delicious Food & Drinks</p>
+            <h1>🍽️ Hotel Restaurant - DEBUG MODE</h1>
+            <p>Checking n8n connection...</p>
         </div>
         
         <div class="table-info">
-            Table: <span id="tableNumber">Loading...</span>
+            Table: <span id="tableNumber">1</span> | 
+            Status: <span id="status">Loading...</span>
         </div>
 
-        <div class="categories">
-            <button class="category-btn active" data-category="all">All Items</button>
-            <button class="category-btn" data-category="food">Food</button>
-            <button class="category-btn" data-category="drinks">Drinks</button>
-            <button class="category-btn" data-category="appetizers">Appetizers</button>
-            <button class="category-btn" data-category="desserts">Desserts</button>
+        <div class="debug-info">
+            <strong>Debug Information:</strong><br>
+            Webhook URL: <span id="debugUrl">Loading...</span><br>
+            Response: <span id="debugResponse">Waiting...</span>
         </div>
 
         <div class="menu-items" id="menuContainer">
-            <div class="loading">Loading menu...</div>
-        </div>
-
-        <div class="cart-section">
-            <h2>🛒 Your Order</h2>
-            <div class="cart-items" id="cartItems">
-                <p class="empty-cart">Your cart is empty</p>
-            </div>
-            <div class="cart-total">
-                Total: $<span id="cartTotal">0.00</span>
-            </div>
-
-            <div class="order-form">
-                <h3>Complete Your Order</h3>
-                <div class="form-group">
-                    <label for="customerName">Your Name (Optional)</label>
-                    <input type="text" id="customerName" placeholder="Enter your name">
-                </div>
-                <div class="form-group">
-                    <label for="specialInstructions">Special Instructions</label>
-                    <textarea id="specialInstructions" rows="3" placeholder="Any special requests or allergies..."></textarea>
-                </div>
-                <button class="submit-order" onclick="submitOrder()">📤 Submit Order</button>
-            </div>
+            <div class="loading">Loading menu from n8n...</div>
         </div>
     </div>
 
     <script>
-        // n8n Configuration - UPDATE THESE URLs
-        const N8N_BASE_URL = 'https://n8n-n64x.onrender.com/home/workflows'; // Replace with your n8n domain
-        const MENU_WEBHOOK_URL = `https://n8n-n64x.onrender.com/webhook/menu`; // Your GET menu webhook
-        const ORDER_WEBHOOK_URL = `${N8N_BASE_URL}/webhook/order`; // Your POST order webhook
+        // === CONFIGURATION ===
+        const MENU_WEBHOOK_URL = 'https://n8n-n64x.onrender.com/webhook/menu'; // REPLACE THIS
 
         let menuItems = [];
-        let cart = [];
-        let currentTable = '';
+        
+        // Display debug info
+        document.getElementById('debugUrl').textContent = MENU_WEBHOOK_URL;
 
-        // Get table number from URL parameters
-        function getTableNumber() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('table') || 'Unknown';
-        }
-
-        // Load menu items from n8n webhook
         async function loadMenuItems() {
+            console.log('🔍 Attempting to fetch from:', MENU_WEBHOOK_URL);
+            document.getElementById('debugResponse').textContent = 'Fetching...';
+            document.getElementById('status').textContent = 'Fetching data...';
+
             try {
                 const response = await fetch(MENU_WEBHOOK_URL, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                     }
                 });
                 
-                const data = await response.json();
+                console.log('📡 Response status:', response.status);
+                document.getElementById('debugResponse').textContent = `Status: ${response.status}`;
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
-                if (data.success && data.menu) {
+                const data = await response.json();
+                console.log('📦 Received data:', data);
+                document.getElementById('debugResponse').textContent = `Success: ${data.success}, Items: ${data.menu ? data.menu.length : 0}`;
+
+                if (data.success && data.menu && data.menu.length > 0) {
                     menuItems = data.menu;
                     displayMenuItems(menuItems);
+                    document.getElementById('status').textContent = `Loaded ${data.menu.length} items`;
                 } else {
-                    throw new Error('Invalid data format from server');
+                    throw new Error(data.error || `No menu items found. Success: ${data.success}, Menu length: ${data.menu ? data.menu.length : 'none'}`);
                 }
             } catch (error) {
-                console.error('Error loading menu:', error);
+                console.error('❌ Error:', error);
+                document.getElementById('status').textContent = 'Error loading menu';
                 document.getElementById('menuContainer').innerHTML = 
-                    '<div class="error">Error loading menu. Please try again later.</div>';
+                    `<div style="text-align: center; padding: 40px; color: #e74c3c;">
+                        <h3>❌ Error Loading Menu</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Webhook URL:</strong> ${MENU_WEBHOOK_URL}</p>
+                        <div style="margin-top: 20px;">
+                            <button onclick="loadMenuItems()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                🔄 Retry
+                            </button>
+                        </div>
+                    </div>`;
             }
         }
 
-        // Display menu items
         function displayMenuItems(items) {
             const container = document.getElementById('menuContainer');
             
             if (items.length === 0) {
-                container.innerHTML = '<p>No items available at the moment.</p>';
+                container.innerHTML = '<p>No menu items available.</p>';
                 return;
             }
 
             container.innerHTML = items.map(item => `
-                <div class="menu-item" data-category="${item.category}">
+                <div class="menu-item">
                     <img src="${item.imageurl}" alt="${item.name}" class="item-image" 
                          onerror="this.src='https://images.unsplash.com/photo-1559339352-11d035aa65de?w=300&h=200&fit=crop'">
                     <div class="item-name">${item.name}</div>
                     <div class="item-description">${item.description}</div>
-                    <div class="item-price">$${parseFloat(item.price).toFixed(2)}</div>
+                    <div class="item-price">$${item.price.toFixed(2)}</div>
                     <div class="quantity-controls">
                         <button class="quantity-btn" onclick="decreaseQuantity('${item.id}')">-</button>
                         <span class="quantity-display" id="qty-${item.id}">0</span>
@@ -375,7 +131,6 @@
             `).join('');
         }
 
-        // Cart management functions
         function increaseQuantity(itemId) {
             const quantityElement = document.getElementById(`qty-${itemId}`);
             let quantity = parseInt(quantityElement.textContent) || 0;
@@ -395,147 +150,17 @@
             const quantity = parseInt(quantityElement.textContent) || 0;
             
             if (quantity === 0) {
-                alert('Please select at least 1 quantity');
+                alert('Please select quantity first');
                 return;
             }
-
-            const item = menuItems.find(i => i.id === itemId);
-            if (!item) return;
-
-            // Check if item already in cart
-            const existingItemIndex = cart.findIndex(cartItem => cartItem.id === itemId);
-            
-            if (existingItemIndex > -1) {
-                // Update quantity
-                cart[existingItemIndex].quantity += quantity;
-            } else {
-                // Add new item
-                cart.push({
-                    id: item.id,
-                    name: item.name,
-                    price: parseFloat(item.price),
-                    quantity: quantity,
-                    image: item.imageurl
-                });
-            }
-
-            // Reset quantity display
+            alert(`Added ${quantity} item(s) to cart!`);
             quantityElement.textContent = '0';
-            
-            updateCartDisplay();
         }
 
-        function updateCartDisplay() {
-            const cartItemsContainer = document.getElementById('cartItems');
-            const cartTotalElement = document.getElementById('cartTotal');
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
-                cartTotalElement.textContent = '0.00';
-                return;
-            }
-
-            let total = 0;
-            cartItemsContainer.innerHTML = cart.map(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                
-                return `
-                    <div class="cart-item">
-                        <div>
-                            <strong>${item.name}</strong><br>
-                            <small>$${item.price.toFixed(2)} × ${item.quantity}</small>
-                        </div>
-                        <div>
-                            $${itemTotal.toFixed(2)}
-                            <button onclick="removeFromCart('${item.id}')" style="margin-left: 10px; color: red; border: none; background: none; cursor: pointer;">❌</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            cartTotalElement.textContent = total.toFixed(2);
-        }
-
-        function removeFromCart(itemId) {
-            cart = cart.filter(item => item.id !== itemId);
-            updateCartDisplay();
-        }
-
-        // Submit order to n8n
-        async function submitOrder() {
-            if (cart.length === 0) {
-                alert('Your cart is empty. Please add some items before ordering.');
-                return;
-            }
-
-            const orderData = {
-                table: currentTable,
-                customerName: document.getElementById('customerName').value || 'Anonymous',
-                specialInstructions: document.getElementById('specialInstructions').value,
-                items: cart,
-                total: document.getElementById('cartTotal').textContent,
-                timestamp: new Date().toISOString()
-            };
-
-            try {
-                const submitButton = document.querySelector('.submit-order');
-                submitButton.disabled = true;
-                submitButton.textContent = 'Submitting...';
-
-                const response = await fetch(ORDER_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(orderData)
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    alert('✅ Order submitted successfully! The kitchen has been notified.');
-                    // Clear cart
-                    cart = [];
-                    updateCartDisplay();
-                    document.getElementById('customerName').value = '';
-                    document.getElementById('specialInstructions').value = '';
-                } else {
-                    throw new Error(result.message || 'Failed to submit order');
-                }
-            } catch (error) {
-                console.error('Error submitting order:', error);
-                alert('❌ There was an error submitting your order. Please try again.');
-            } finally {
-                const submitButton = document.querySelector('.submit-order');
-                submitButton.disabled = false;
-                submitButton.textContent = '📤 Submit Order';
-            }
-        }
-
-        // Category filtering
-        document.querySelectorAll('.category-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Update active button
-                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                
-                const category = button.getAttribute('data-category');
-                const filteredItems = category === 'all' 
-                    ? menuItems 
-                    : menuItems.filter(item => item.category === category);
-                
-                displayMenuItems(filteredItems);
-            });
-        });
-
-        // Initialize the page
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            currentTable = getTableNumber();
-            document.getElementById('tableNumber').textContent = currentTable;
             loadMenuItems();
         });
     </script>
 </body>
-
 </html>
