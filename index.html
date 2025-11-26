@@ -44,6 +44,36 @@
           border: 1px solid rgba(0,0,0,0.05);
         }
 
+        /* ===== LANGUAGE SELECTOR ===== */
+        .language-selector {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          z-index: 100;
+        }
+
+        .language-btn {
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid var(--primary-sage);
+          padding: 8px 15px;
+          border-radius: 20px;
+          cursor: pointer;
+          font-size: 0.9em;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          margin-left: 5px;
+        }
+
+        .language-btn.active {
+          background: var(--primary-sage);
+          color: white;
+        }
+
+        .language-btn:hover {
+          background: var(--primary-dark);
+          color: white;
+        }
+
         /* ===== ENHANCED HEADER & NAVIGATION ===== */
         .header {
           background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-sage) 100%);
@@ -776,60 +806,67 @@
 </head>
 <body>
     <div class="container">
+        <!-- Language Selector -->
+        <div class="language-selector">
+            <button class="language-btn active" data-lang="en">English</button>
+            <button class="language-btn" data-lang="am">አማርኛ</button>
+            <button class="language-btn" data-lang="om">Afaan Oromoo</button>
+        </div>
+
         <div class="header">
-            <h1>🍽️ Luxury Hotel Restaurant</h1>
-            <p>Exquisite Dining Experience</p>
+            <h1 data-i18n="restaurant_name">🍽️ Luxury Hotel Restaurant</h1>
+            <p data-i18n="restaurant_tagline">Exquisite Dining Experience</p>
         </div>
         
         <div class="table-info">
-            🎯 Currently Serving: Table <span id="tableNumber">1</span>
+            <span data-i18n="serving_table">🎯 Currently Serving: Table</span> <span id="tableNumber">1</span>
         </div>
 
         <div class="categories">
-            <button class="category-btn active" data-category="all">All Menu</button>
-            <button class="category-btn" data-category="food">Main Course</button>
-            <button class="category-btn" data-category="drinks">Beverages</button>
-            <button class="category-btn" data-category="appetizers">Appetizers</button>
-            <button class="category-btn" data-category="desserts">Desserts</button>
+            <button class="category-btn active" data-category="all" data-i18n="all_menu">All Menu</button>
+            <button class="category-btn" data-category="food" data-i18n="main_course">Main Course</button>
+            <button class="category-btn" data-category="drinks" data-i18n="beverages">Beverages</button>
+            <button class="category-btn" data-category="appetizers" data-i18n="appetizers">Appetizers</button>
+            <button class="category-btn" data-category="desserts" data-i18n="desserts">Desserts</button>
         </div>
 
         <div class="menu-items" id="menuContainer">
             <div class="loading">
                 <div class="loading-spinner"></div>
-                Loading our delicious menu...
+                <span data-i18n="loading_menu">Loading our delicious menu...</span>
             </div>
         </div>
 
         <div class="cart-section">
             <div class="cart-header">
-                <h2>🛒 Your Order</h2>
-                <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
+                <h2 data-i18n="your_order">🛒 Your Order</h2>
+                <button class="clear-cart" onclick="clearCart()" data-i18n="clear_cart">Clear Cart</button>
             </div>
             
             <div class="cart-items" id="cartItems">
                 <div class="empty-state">
                     <div>📝</div>
-                    <h3>Your cart is empty</h3>
-                    <p>Add some delicious items from our menu</p>
+                    <h3 data-i18n="cart_empty">Your cart is empty</h3>
+                    <p data-i18n="add_items">Add some delicious items from our menu</p>
                 </div>
             </div>
             
             <div class="cart-total">
-                Total Amount: $<span id="cartTotal">0.00</span>
+                <span data-i18n="total_amount">Total Amount:</span> $<span id="cartTotal">0.00</span>
             </div>
 
             <div class="order-form">
-                <h3>Complete Your Order</h3>
+                <h3 data-i18n="complete_order">Complete Your Order</h3>
                 <div class="form-group">
-                    <label for="customerName">👤 Your Name (Optional)</label>
-                    <input type="text" id="customerName" placeholder="Enter your name for the order">
+                    <label for="customerName" data-i18n="your_name">👤 Your Name (Optional)</label>
+                    <input type="text" id="customerName" data-i18n-placeholder="name_placeholder" placeholder="Enter your name for the order">
                 </div>
                 <div class="form-group">
-                    <label for="specialInstructions">📝 Special Instructions</label>
-                    <textarea id="specialInstructions" rows="4" placeholder="Any allergies, dietary restrictions, or special requests..."></textarea>
+                    <label for="specialInstructions" data-i18n="special_instructions">📝 Special Instructions</label>
+                    <textarea id="specialInstructions" rows="4" data-i18n-placeholder="instructions_placeholder" placeholder="Any allergies, dietary restrictions, or special requests..."></textarea>
                 </div>
                 <button class="submit-order" onclick="submitOrder()">
-                    🚀 Place Order & Notify Kitchen
+                    <span data-i18n="place_order">🚀 Place Order & Notify Kitchen</span>
                 </button>
             </div>
         </div>
@@ -839,50 +876,50 @@
     <div class="confirmation-modal" id="confirmationModal">
         <div class="confirmation-content">
             <div class="confirmation-header">
-                <h2>✅ Order Confirmed!</h2>
-                <p class="confirmation-subtitle">Your order has been received and the kitchen has been notified</p>
+                <h2 data-i18n="order_confirmed">✅ Order Confirmed!</h2>
+                <p class="confirmation-subtitle" data-i18n="order_received">Your order has been received and the kitchen has been notified</p>
             </div>
             
             <div class="confirmation-body">
                 <div class="confirmation-number">
-                    <h3>Confirmation Number</h3>
+                    <h3 data-i18n="confirmation_number">Confirmation Number</h3>
                     <div class="confirmation-code" id="confirmationCode">T01-427-8946</div>
                 </div>
                 
                 <div class="order-details-grid">
                     <div class="detail-group">
-                        <h4>Table Number</h4>
+                        <h4 data-i18n="table_number">Table Number</h4>
                         <p id="confirmationTable">1</p>
                     </div>
                     <div class="detail-group">
-                        <h4>Order Time</h4>
+                        <h4 data-i18n="order_time">Order Time</h4>
                         <p id="confirmationTime">2025-11-26 19:34:56</p>
                     </div>
                 </div>
                 
                 <div class="order-summary">
-                    <h4>Order Summary</h4>
+                    <h4 data-i18n="order_summary">Order Summary</h4>
                     <div id="confirmationItems">
                         <!-- Items will be inserted here by JavaScript -->
                     </div>
                     <div class="summary-total">
-                        <span>Total:</span>
+                        <span data-i18n="total">Total:</span>
                         <span id="confirmationTotal">$12.99</span>
                     </div>
                 </div>
                 
                 <div class="next-steps">
-                    <h3>What happens next?</h3>
+                    <h3 data-i18n="what_happens_next">What happens next?</h3>
                     <ul>
-                        <li>Your order has been sent to the kitchen</li>
-                        <li>You'll receive updates on your order status</li>
-                        <li>Estimated preparation time: 15-20 minutes</li>
+                        <li data-i18n="step_1">Your order has been sent to the kitchen</li>
+                        <li data-i18n="step_2">You'll receive updates on your order status</li>
+                        <li data-i18n="step_3">Estimated preparation time: 15-20 minutes</li>
                     </ul>
                 </div>
             </div>
             
             <div class="confirmation-actions">
-                <button class="btn-continue" onclick="closeConfirmation()">Continue Ordering</button>
+                <button class="btn-continue" onclick="closeConfirmation()" data-i18n="continue_ordering">Continue Ordering</button>
             </div>
         </div>
     </div>
@@ -895,6 +932,222 @@
         let menuItems = [];
         let cart = [];
         let currentTable = '';
+        let currentLanguage = 'en';
+
+        // Translation dictionary
+        const translations = {
+            en: {
+                // Header
+                "restaurant_name": "🍽️ Luxury Hotel Restaurant",
+                "restaurant_tagline": "Exquisite Dining Experience",
+                "serving_table": "🎯 Currently Serving: Table",
+                
+                // Categories
+                "all_menu": "All Menu",
+                "main_course": "Main Course",
+                "beverages": "Beverages",
+                "appetizers": "Appetizers",
+                "desserts": "Desserts",
+                
+                // Cart
+                "your_order": "🛒 Your Order",
+                "clear_cart": "Clear Cart",
+                "cart_empty": "Your cart is empty",
+                "add_items": "Add some delicious items from our menu",
+                "total_amount": "Total Amount",
+                
+                // Order Form
+                "complete_order": "Complete Your Order",
+                "your_name": "👤 Your Name (Optional)",
+                "name_placeholder": "Enter your name for the order",
+                "special_instructions": "📝 Special Instructions",
+                "instructions_placeholder": "Any allergies, dietary restrictions, or special requests...",
+                "place_order": "🚀 Place Order & Notify Kitchen",
+                
+                // Confirmation Modal
+                "order_confirmed": "✅ Order Confirmed!",
+                "order_received": "Your order has been received and the kitchen has been notified",
+                "confirmation_number": "Confirmation Number",
+                "table_number": "Table Number",
+                "order_time": "Order Time",
+                "order_summary": "Order Summary",
+                "total": "Total",
+                "what_happens_next": "What happens next?",
+                "step_1": "Your order has been sent to the kitchen",
+                "step_2": "You'll receive updates on your order status",
+                "step_3": "Estimated preparation time: 15-20 minutes",
+                "continue_ordering": "Continue Ordering",
+                
+                // Notifications
+                "loading_menu": "Loading our delicious menu...",
+                "menu_unavailable": "Menu Unavailable",
+                "technical_difficulties": "We're experiencing technical difficulties. Please try again shortly.",
+                "no_items": "No Items Available",
+                "check_back": "Please check back later for our menu offerings.",
+                "select_quantity": "Please select quantity first",
+                "added_to_cart": "Added {quantity} {item} to cart",
+                "item_removed": "Item removed from cart",
+                "cart_cleared": "Cart cleared",
+                "empty_cart_warning": "Your cart is empty. Please add items before ordering.",
+                "order_success": "🎉 Order confirmed! Your confirmation number: {number}",
+                "order_failed": "❌ Failed to place order: {error}"
+            },
+            am: {
+                // Header
+                "restaurant_name": "🍽️ የሆቴል ሬስቶራንት",
+                "restaurant_tagline": "የላቀ የምግብ ልምድ",
+                "serving_table": "🎯 አሁን የሚያገለግል: ማእድ",
+                
+                // Categories
+                "all_menu": "ሁሉም መነሻ",
+                "main_course": "ዋና ምግብ",
+                "beverages": "ሻይ እና ቡና",
+                "appetizers": "መጀመሪያ ምግብ",
+                "desserts": "ለምግብ ተከታይ",
+                
+                // Cart
+                "your_order": "🛒 ትዕዛዝዎ",
+                "clear_cart": "ግዢውን አጽዳ",
+                "cart_empty": "ግዢዎችዎ ባዶ ነው",
+                "add_items": "ከመነሻችን ጣፋጭ ምግቦችን ያክሉ",
+                "total_amount": "ጠቅላላ ዋጋ",
+                
+                // Order Form
+                "complete_order": "ትዕዛዝዎን ይጨርሱ",
+                "your_name": "👤 ስምዎ (አማራጭ)",
+                "name_placeholder": "ለትዕዛዝ ስምዎን ያስገቡ",
+                "special_instructions": "📝 ልዩ መመሪያዎች",
+                "instructions_placeholder": "ማንኛውም አለርጂ፣ የአመጋገብ ገደቦች፣ ወይም ልዩ ጥያቄዎች...",
+                "place_order": "🚀 ትዕዛዝ ለመጨረስ & ማእድ ለማሳወቅ",
+                
+                // Confirmation Modal
+                "order_confirmed": "✅ ትዕዛዝ ተቀባይነት አገኘ!",
+                "order_received": "ትዕዛዝዎ ተቀብሎ ለማእድ ተላልፏል",
+                "confirmation_number": "የማረጋገጫ ቁጥር",
+                "table_number": "የማእድ ቁጥር",
+                "order_time": "የትዕዛዝ ሰዓት",
+                "order_summary": "የትዕዛዝ ማጠቃለያ",
+                "total": "ጠቅላላ",
+                "what_happens_next": "ቀጥሎ ምን ይሆናል?",
+                "step_1": "ትዕዛዝዎ ለማእድ ተልኳል",
+                "step_2": "ስለ ትዕዛዝዎ ሁኔታ ማሳወቂያዎችን ይቀበላሉ",
+                "step_3": "የማሰናዳት ግምታዊ ጊዜ: 15-20 ደቂቃዎች",
+                "continue_ordering": "ግዢን ቀጥል",
+                
+                // Notifications
+                "loading_menu": "ጣፋጭ መነሻችንን በመጫን ላይ...",
+                "menu_unavailable": "መነሻ አይገኝም",
+                "technical_difficulties": "ቴክኒካል ችግር አለን። እባክዎ ትንሽ ቆይተው ይሞክሩ።",
+                "no_items": "ምንም የሚገኝ ምግብ የለም",
+                "check_back": "እባክዎ ቆይተው ይመልከቱ።",
+                "select_quantity": "እባክዎ መጠን ይምረጡ",
+                "added_to_cart": "{quantity} {item} ወደ ግዢ ተጨምሯል",
+                "item_removed": "ንጥል ከግዢ ተሰርዟል",
+                "cart_cleared": "ግዢ ተጸድቷል",
+                "empty_cart_warning": "ግዢዎችዎ ባዶ ነው። እባክዎ ከመጨረስ በፊት ንጥሎችን ያክሉ።",
+                "order_success": "🎉 ትዕዛዝ ተቀባይነት አገኘ! የማረጋገጫ ቁጥርዎ: {number}",
+                "order_failed": "❌ ትዕዛዝ ማስገባት አልተሳካም: {error}"
+            },
+            om: {
+                // Header
+                "restaurant_name": "🍽️ Hoteela Restoraantii",
+                "restaurant_tagline": "Experiensaa Nyaataa Gaarii",
+                "serving_table": "🎯 Amma Tajaajila: Daa'ima",
+                
+                // Categories
+                "all_menu": "Menyuu Hundaa",
+                "main_course": "Nyaata Gurguddaa",
+                "beverages": "Shaayii fi Buna",
+                "appetizers": "Nyaata Jalqabaa",
+                "desserts": "Nyaata Boodaa",
+                
+                // Cart
+                "your_order": "🛒 Dhaabbata Keessan",
+                "clear_cart": "Dhaabbata Qulqulleessi",
+                "cart_empty": "Dhaabbataan Keessan Duwwaa Dha",
+                "add_items": "Menyuu Keenya Irraa Nyaata Mi'aawaa Dabaladhaa",
+                "total_amount": "Gatii Waliigalaa",
+                
+                // Order Form
+                "complete_order": "Dhaabbata Keessan Xumuri",
+                "your_name": "👤 Maqaa Keessan (Filannoo)",
+                "name_placeholder": "Dhaabbataaf Maqaa Keessan Galchaa",
+                "special_instructions": "📝 Qajeelfama Addaa",
+                "instructions_placeholder": "Allergii, Cufa Nyaataa, ykn Gaafii Addaa...",
+                "place_order": "🚀 Dhaabbata Dhiheessi & Meejiraa Beeksi",
+                
+                // Confirmation Modal
+                "order_confirmed": "✅ Dhaabbataan Mirkaneeffame!",
+                "order_received": "Dhaabbataan Keessan Fudhatamee Meejiraatti Darbame",
+                "confirmation_number": "Lakkoofsa Mirkaneessaa",
+                "table_number": "Lakkoofsa Daa'imaa",
+                "order_time": "Yeroo Dhaabbataa",
+                "order_summary": "Xumura Dhaabbataa",
+                "total": "Waliigala",
+                "what_happens_next": "Egaa Maal Ta'a?",
+                "step_1": "Dhaabbataan Keessan Meejiraatti Darbame",
+                "step_2": "Haala Dhaabbataa Keessan Irratti Oduu Argattu",
+                "step_3": "Yeroo Qopheessuu Tilmaama: Daqiiqaa 15-20",
+                "continue_ordering": "Dhaabbata Itti Fufi",
+                
+                // Notifications
+                "loading_menu": "Menyuu Keenya Mi'aawaa Buufanna...",
+                "menu_unavailable": "Menyuu Hin Argamu",
+                "technical_difficulties": "Rakkoo Teknikaa Qabna. Mee Yeroo Bira Booda Irra Deebi'i.",
+                "no_items": "Nyaata Hin Argamu",
+                "check_back": "Mee Eegaa Booda Ilalla.",
+                "select_quantity": "Mee Lakkoofsa Filadhu",
+                "added_to_cart": "{quantity} {item} Dhaabbataa Keessatti Dabalame",
+                "item_removed": "Wanta Dhaabbataa Irraa Haqe",
+                "cart_cleared": "Dhaabbataan Qulqulleffame",
+                "empty_cart_warning": "Dhaabbataan Keessan Duwwaa Dha. Mee Dhiyeessuu Kaanaan Dura Wanta Dabaladhaa.",
+                "order_success": "🎉 Dhaabbataan Mirkaneeffame! Lakkoofsa Mirkaneessaa Keessan: {number}",
+                "order_failed": "❌ Dhaabbata Dhiyeessuu Hin Dandeenye: {error}"
+            }
+        };
+
+        // Language functions
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update language buttons
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+            
+            // Save language preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        function translateNotification(message, type = 'info', replacements = {}) {
+            let translatedMessage = translations[currentLanguage][message] || message;
+            
+            // Replace placeholders
+            for (const [key, value] of Object.entries(replacements)) {
+                translatedMessage = translatedMessage.replace(`{${key}}`, value);
+            }
+            
+            return translatedMessage;
+        }
 
         // Get table number from URL
         function getTableNumber() {
@@ -924,13 +1177,14 @@
                 document.getElementById('menuContainer').innerHTML = `
                     <div class="empty-state">
                         <div>❌</div>
-                        <h3>Menu Unavailable</h3>
-                        <p>We're experiencing technical difficulties. Please try again shortly.</p>
+                        <h3 data-i18n="menu_unavailable">Menu Unavailable</h3>
+                        <p data-i18n="technical_difficulties">We're experiencing technical difficulties. Please try again shortly.</p>
                         <button onclick="loadMenuItems()" style="margin-top: 20px; padding: 10px 20px; background: var(--primary-sage); color: white; border: none; border-radius: 5px; cursor: pointer;">
                             Retry
                         </button>
                     </div>
                 `;
+                setLanguage(currentLanguage); // Retranslate after updating DOM
             }
         }
 
@@ -942,10 +1196,11 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div>😔</div>
-                        <h3>No Items Available</h3>
-                        <p>Please check back later for our menu offerings.</p>
+                        <h3 data-i18n="no_items">No Items Available</h3>
+                        <p data-i18n="check_back">Please check back later for our menu offerings.</p>
                     </div>
                 `;
+                setLanguage(currentLanguage); // Retranslate after updating DOM
                 return;
             }
 
@@ -990,7 +1245,7 @@
             const quantity = parseInt(quantityElement.textContent) || 0;
             
             if (quantity === 0) {
-                showNotification('Please select quantity first', 'warning');
+                showNotification(translateNotification('select_quantity'), 'warning');
                 return;
             }
 
@@ -1012,22 +1267,22 @@
 
             quantityElement.textContent = '0';
             updateCartDisplay();
-            showNotification(`Added ${quantity} ${item.name} to cart`, 'success');
+            showNotification(translateNotification('added_to_cart', 'success', {quantity: quantity, item: item.name}), 'success');
         }
 
         function removeFromCart(itemId) {
             cart = cart.filter(item => item.id != itemId);
             updateCartDisplay();
-            showNotification('Item removed from cart', 'info');
+            showNotification(translateNotification('item_removed'), 'info');
         }
 
         function clearCart() {
             if (cart.length === 0) return;
             
-            if (confirm('Are you sure you want to clear your cart?')) {
+            if (confirm(translateNotification('cart_cleared'))) {
                 cart = [];
                 updateCartDisplay();
-                showNotification('Cart cleared', 'info');
+                showNotification(translateNotification('cart_cleared'), 'info');
             }
         }
 
@@ -1039,10 +1294,11 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div>📝</div>
-                        <h3>Your cart is empty</h3>
-                        <p>Add some delicious items from our menu</p>
+                        <h3 data-i18n="cart_empty">Your cart is empty</h3>
+                        <p data-i18n="add_items">Add some delicious items from our menu</p>
                     </div>
                 `;
+                setLanguage(currentLanguage); // Retranslate after updating DOM
                 totalElement.textContent = '0.00';
                 return;
             }
@@ -1070,7 +1326,7 @@
         // Order submission with professional confirmation
         async function submitOrder() {
             if (cart.length === 0) {
-                showNotification('Your cart is empty. Please add items before ordering.', 'warning');
+                showNotification(translateNotification('empty_cart_warning'), 'warning');
                 return;
             }
 
@@ -1091,7 +1347,7 @@
             try {
                 const submitButton = document.querySelector('.submit-order');
                 submitButton.disabled = true;
-                submitButton.innerHTML = '⏳ Sending Order...';
+                submitButton.innerHTML = '⏳ ' + translateNotification('place_order');
 
                 const response = await fetch(ORDER_WEBHOOK_URL, {
                     method: 'POST',
@@ -1135,11 +1391,11 @@
 
             } catch (error) {
                 console.error('❌ Order submission error:', error);
-                showNotification(`❌ Failed to place order: ${error.message}`, 'error');
+                showNotification(translateNotification('order_failed', 'error', {error: error.message}), 'error');
             } finally {
                 const submitButton = document.querySelector('.submit-order');
                 submitButton.disabled = false;
-                submitButton.innerHTML = '🚀 Place Order & Notify Kitchen';
+                submitButton.innerHTML = '🚀 ' + translateNotification('place_order');
             }
         }
 
@@ -1174,7 +1430,7 @@
             document.getElementById('confirmationModal').style.display = 'flex';
             
             // Show success notification
-            showNotification(`🎉 Order confirmed! Your confirmation number: ${confirmationNumber}`, 'success');
+            showNotification(translateNotification('order_success', 'success', {number: confirmationNumber}), 'success');
         }
 
         function closeConfirmation() {
@@ -1226,10 +1482,23 @@
             });
         });
 
+        // Language switcher
+        document.querySelectorAll('.language-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
             currentTable = getTableNumber();
             document.getElementById('tableNumber').textContent = currentTable;
+            
+            // Set language from localStorage or default to English
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            setLanguage(savedLanguage);
+            
             loadMenuItems();
         });
     </script>
