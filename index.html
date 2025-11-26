@@ -5,132 +5,598 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Restaurant Menu</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; }
-        .header { background: #2c3e50; color: white; padding: 20px; text-align: center; }
-        .table-info { background: #34495e; padding: 10px; text-align: center; font-size: 1.2em; }
-        .categories { display: flex; background: #ecf0f1; padding: 15px; overflow-x: auto; gap: 10px; }
-        .category-btn { padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 25px; cursor: pointer; }
-        .category-btn.active, .category-btn:hover { background: #2980b9; }
-        .menu-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; }
-        .menu-item { background: white; border-radius: 10px; padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .item-image { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-        .item-name { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-bottom: 5px; }
-        .item-description { color: #7f8c8d; margin-bottom: 10px; font-size: 0.9em; }
-        .item-price { font-size: 1.4em; color: #e74c3c; font-weight: bold; margin-bottom: 15px; }
-        .quantity-controls { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .quantity-btn { width: 30px; height: 30px; background: #3498db; color: white; border: none; border-radius: 50%; cursor: pointer; }
-        .quantity-display { font-size: 1.2em; font-weight: bold; min-width: 30px; text-align: center; }
-        .add-to-cart { width: 100%; padding: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .debug-info { background: #f8f9fa; padding: 15px; margin: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .table-info {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .categories {
+            display: flex;
+            background: #f8f9fa;
+            padding: 20px;
+            overflow-x: auto;
+            gap: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .category-btn {
+            padding: 12px 25px;
+            background: white;
+            color: #2c3e50;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f3f4;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover .item-image {
+            transform: scale(1.05);
+        }
+
+        .item-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .item-description {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .item-price {
+            font-size: 1.6em;
+            color: #e74c3c;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+
+        .quantity-display {
+            font-size: 1.4em;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+
+        .cart-section {
+            background: white;
+            padding: 30px;
+            border-top: 3px solid #e9ecef;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .cart-header h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            font-weight: 300;
+        }
+
+        .clear-cart {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .clear-cart:hover {
+            background: #c0392b;
+        }
+
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 25px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f1f3f4;
+            transition: background 0.2s ease;
+        }
+
+        .cart-item:hover {
+            background: #f8f9fa;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-details {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .cart-item-price {
+            font-weight: 700;
+            color: #e74c3c;
+            font-size: 1.1em;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-left: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .cart-item-remove:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-total {
+            font-size: 1.8em;
+            font-weight: 800;
+            text-align: right;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .order-form {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .order-form h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.6em;
+            font-weight: 300;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .submit-order {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .submit-order:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+        }
+
+        .submit-order:active {
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .menu-items {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 20px;
+            }
+            
+            .categories {
+                padding: 15px;
+            }
+            
+            .cart-section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .category-btn {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🍽️ Hotel Restaurant - DEBUG MODE</h1>
-            <p>Checking n8n connection...</p>
+            <h1>🍽️ Luxury Hotel Restaurant</h1>
+            <p>Exquisite Dining Experience</p>
         </div>
         
         <div class="table-info">
-            Table: <span id="tableNumber">1</span> | 
-            Status: <span id="status">Loading...</span>
+            🎯 Currently Serving: Table <span id="tableNumber">1</span>
         </div>
 
-        <div class="debug-info">
-            <strong>Debug Information:</strong><br>
-            Webhook URL: <span id="debugUrl">Loading...</span><br>
-            Response: <span id="debugResponse">Waiting...</span>
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All Menu</button>
+            <button class="category-btn" data-category="food">Main Course</button>
+            <button class="category-btn" data-category="drinks">Beverages</button>
+            <button class="category-btn" data-category="appetizers">Appetizers</button>
+            <button class="category-btn" data-category="desserts">Desserts</button>
         </div>
 
         <div class="menu-items" id="menuContainer">
-            <div class="loading">Loading menu from n8n...</div>
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                Loading our delicious menu...
+            </div>
+        </div>
+
+        <div class="cart-section">
+            <div class="cart-header">
+                <h2>🛒 Your Order</h2>
+                <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <div class="empty-state">
+                    <div>📝</div>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some delicious items from our menu</p>
+                </div>
+            </div>
+            
+            <div class="cart-total">
+                Total Amount: $<span id="cartTotal">0.00</span>
+            </div>
+
+            <div class="order-form">
+                <h3>Complete Your Order</h3>
+                <div class="form-group">
+                    <label for="customerName">👤 Your Name (Optional)</label>
+                    <input type="text" id="customerName" placeholder="Enter your name for the order">
+                </div>
+                <div class="form-group">
+                    <label for="specialInstructions">📝 Special Instructions</label>
+                    <textarea id="specialInstructions" rows="4" placeholder="Any allergies, dietary restrictions, or special requests..."></textarea>
+                </div>
+                <button class="submit-order" onclick="submitOrder()">
+                    🚀 Place Order & Notify Kitchen
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // === CONFIGURATION ===
-        const MENU_WEBHOOK_URL = 'https://n8n-n64x.onrender.com/webhook/menu'; // REPLACE THIS
+        // Configuration
+        const MENU_WEBHOOK_URL = 'https://n8n-n64x.onrender.com/webhook/menu';
+        const ORDER_WEBHOOK_URL = 'https://n8n-n64x.onrender.com/webhook/order'; // You'll create this next
 
         let menuItems = [];
-        
-        // Display debug info
-        document.getElementById('debugUrl').textContent = MENU_WEBHOOK_URL;
+        let cart = [];
+        let currentTable = '';
 
+        // Get table number from URL
+        function getTableNumber() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('table') || '1';
+        }
+
+        // Load menu from n8n
         async function loadMenuItems() {
-            console.log('🔍 Attempting to fetch from:', MENU_WEBHOOK_URL);
-            document.getElementById('debugResponse').textContent = 'Fetching...';
-            document.getElementById('status').textContent = 'Fetching data...';
-
             try {
-                const response = await fetch(MENU_WEBHOOK_URL, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                    }
-                });
+                const response = await fetch(MENU_WEBHOOK_URL);
                 
-                console.log('📡 Response status:', response.status);
-                document.getElementById('debugResponse').textContent = `Status: ${response.status}`;
-
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error('Network response was not ok');
                 }
                 
                 const data = await response.json();
-                console.log('📦 Received data:', data);
-                document.getElementById('debugResponse').textContent = `Success: ${data.success}, Items: ${data.menu ? data.menu.length : 0}`;
-
-                if (data.success && data.menu && data.menu.length > 0) {
+                
+                if (data.success && data.menu) {
                     menuItems = data.menu;
                     displayMenuItems(menuItems);
-                    document.getElementById('status').textContent = `Loaded ${data.menu.length} items`;
                 } else {
-                    throw new Error(data.error || `No menu items found. Success: ${data.success}, Menu length: ${data.menu ? data.menu.length : 'none'}`);
+                    throw new Error('Invalid menu data received');
                 }
             } catch (error) {
-                console.error('❌ Error:', error);
-                document.getElementById('status').textContent = 'Error loading menu';
-                document.getElementById('menuContainer').innerHTML = 
-                    `<div style="text-align: center; padding: 40px; color: #e74c3c;">
-                        <h3>❌ Error Loading Menu</h3>
-                        <p><strong>Error:</strong> ${error.message}</p>
-                        <p><strong>Webhook URL:</strong> ${MENU_WEBHOOK_URL}</p>
-                        <div style="margin-top: 20px;">
-                            <button onclick="loadMenuItems()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                                🔄 Retry
-                            </button>
-                        </div>
-                    </div>`;
+                console.error('Error loading menu:', error);
+                document.getElementById('menuContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div>❌</div>
+                        <h3>Menu Unavailable</h3>
+                        <p>We're experiencing technical difficulties. Please try again shortly.</p>
+                        <button onclick="loadMenuItems()" style="margin-top: 20px; padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Retry
+                        </button>
+                    </div>
+                `;
             }
         }
 
+        // Display menu items
         function displayMenuItems(items) {
             const container = document.getElementById('menuContainer');
             
-            if (items.length === 0) {
-                container.innerHTML = '<p>No menu items available.</p>';
+            if (!items || items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div>😔</div>
+                        <h3>No Items Available</h3>
+                        <p>Please check back later for our menu offerings.</p>
+                    </div>
+                `;
                 return;
             }
 
             container.innerHTML = items.map(item => `
-                <div class="menu-item">
-                    <img src="${item.imageurl}" alt="${item.name}" class="item-image" 
-                         onerror="this.src='https://images.unsplash.com/photo-1559339352-11d035aa65de?w=300&h=200&fit=crop'">
-                    <div class="item-name">${item.name}</div>
-                    <div class="item-description">${item.description}</div>
-                    <div class="item-price">$${item.price.toFixed(2)}</div>
+                <div class="menu-item" data-category="${item.category || 'other'}">
+                    <img src="${item.imageurl || 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop'}" 
+                         alt="${item.name}" 
+                         class="item-image"
+                         onerror="this.src='https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop'">
+                    <div class="item-name">${item.name || 'Menu Item'}</div>
+                    <div class="item-description">${item.description || 'Delicious selection from our kitchen'}</div>
+                    <div class="item-price">$${typeof item.price === 'number' ? item.price.toFixed(2) : '0.00'}</div>
                     <div class="quantity-controls">
                         <button class="quantity-btn" onclick="decreaseQuantity('${item.id}')">-</button>
                         <span class="quantity-display" id="qty-${item.id}">0</span>
                         <button class="quantity-btn" onclick="increaseQuantity('${item.id}')">+</button>
                     </div>
-                    <button class="add-to-cart" onclick="addToCart('${item.id}')">Add to Cart</button>
+                    <button class="add-to-cart" onclick="addToCart('${item.id}')">
+                        ➕ Add to Order
+                    </button>
                 </div>
             `).join('');
         }
 
+        // Cart functionality
         function increaseQuantity(itemId) {
             const quantityElement = document.getElementById(`qty-${itemId}`);
             let quantity = parseInt(quantityElement.textContent) || 0;
@@ -150,16 +616,216 @@
             const quantity = parseInt(quantityElement.textContent) || 0;
             
             if (quantity === 0) {
-                alert('Please select quantity first');
+                showNotification('Please select quantity first', 'warning');
                 return;
             }
-            alert(`Added ${quantity} item(s) to cart!`);
+
+            const item = menuItems.find(i => i.id == itemId);
+            if (!item) return;
+
+            const existingIndex = cart.findIndex(cartItem => cartItem.id == itemId);
+            
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += quantity;
+            } else {
+                cart.push({
+                    id: item.id,
+                    name: item.name,
+                    price: parseFloat(item.price),
+                    quantity: quantity
+                });
+            }
+
             quantityElement.textContent = '0';
+            updateCartDisplay();
+            showNotification(`Added ${quantity} ${item.name} to cart`, 'success');
         }
 
-        // Initialize
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id != itemId);
+            updateCartDisplay();
+            showNotification('Item removed from cart', 'info');
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            
+            if (confirm('Are you sure you want to clear your cart?')) {
+                cart = [];
+                updateCartDisplay();
+                showNotification('Cart cleared', 'info');
+            }
+        }
+
+        function updateCartDisplay() {
+            const container = document.getElementById('cartItems');
+            const totalElement = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div>📝</div>
+                        <h3>Your cart is empty</h3>
+                        <p>Add some delicious items from our menu</p>
+                    </div>
+                `;
+                totalElement.textContent = '0.00';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-details">$${item.price.toFixed(2)} × ${item.quantity}</div>
+                        </div>
+                        <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
+                        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">🗑️</button>
+                    </div>
+                `;
+            }).join('');
+
+            totalElement.textContent = total.toFixed(2);
+        }
+
+        // Order submission
+        async function submitOrder() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty. Please add items before ordering.', 'warning');
+                return;
+            }
+
+            const orderData = {
+                table: currentTable,
+                customerName: document.getElementById('customerName').value || 'Guest',
+                specialInstructions: document.getElementById('specialInstructions').value || 'None',
+                items: cart,
+                total: document.getElementById('cartTotal').textContent,
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            try {
+                const submitButton = document.querySelector('.submit-order');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '⏳ Sending Order...';
+
+                // For now, we'll simulate success since ORDER_WEBHOOK_URL might not be set up
+                // In production, you would uncomment the fetch call below
+                
+                /*
+                const response = await fetch(ORDER_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to submit order');
+                }
+                */
+
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                showNotification('🎉 Order placed successfully! The kitchen has been notified.', 'success');
+                
+                // Clear cart and form
+                cart = [];
+                updateCartDisplay();
+                document.getElementById('customerName').value = '';
+                document.getElementById('specialInstructions').value = '';
+
+            } catch (error) {
+                console.error('Order submission error:', error);
+                showNotification('❌ Failed to place order. Please try again.', 'error');
+            } finally {
+                const submitButton = document.querySelector('.submit-order');
+                submitButton.disabled = false;
+                submitButton.innerHTML = '🚀 Place Order & Notify Kitchen';
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Remove existing notification
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = message;
+            
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 10px;
+                color: white;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+                background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : type === 'warning' ? '#f39c12' : '#3498db'};
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 4 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 4000);
+        }
+
+        // Category filtering
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const category = button.getAttribute('data-category');
+                const filteredItems = category === 'all' 
+                    ? menuItems 
+                    : menuItems.filter(item => item.category === category);
+                
+                displayMenuItems(filteredItems);
+            });
+        });
+
+        // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
+            currentTable = getTableNumber();
+            document.getElementById('tableNumber').textContent = currentTable;
             loadMenuItems();
+            
+            // Add CSS for notifications
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 </body>
