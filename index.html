@@ -924,9 +924,9 @@
             container.innerHTML = items.map(item => `
                 <div class="menu-item" data-category="${item.category || 'other'}">
                     <img src="${item.imageurl || 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop'}" 
-                         alt="${item.name}" 
-                         class="item-image"
-                         onerror="this.src='https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop'">
+                        alt="${item.name}" 
+                        class="item-image"
+                        onerror="this.src='https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop'">
                     <div class="item-name">${item.name || 'Menu Item'}</div>
                     <div class="item-description">${item.description || 'Delicious selection from our kitchen'}</div>
                     <div class="item-price">$${typeof item.price === 'number' ? item.price.toFixed(2) : '0.00'}</div>
@@ -1084,8 +1084,17 @@
                 console.log('✅ Order response:', result);
 
                 if (result.success) {
-                    // Show professional confirmation modal
-                    showConfirmationModal(result.confirmationNumber, orderData);
+                    // Check if confirmation number exists in response
+                    const confirmationNumber = result.confirmationNumber;
+                    
+                    if (!confirmationNumber) {
+                        console.warn('No confirmation number received from server, generating locally');
+                        // Generate fallback confirmation number
+                        const fallbackConfirmation = generateFallbackConfirmationNumber();
+                        showConfirmationModal(fallbackConfirmation, orderData);
+                    } else {
+                        showConfirmationModal(confirmationNumber, orderData);
+                    }
                     
                     // Clear cart and form
                     cart = [];
@@ -1106,8 +1115,18 @@
             }
         }
 
+        // Fallback function to generate confirmation number if n8n doesn't return one
+        function generateFallbackConfirmationNumber() {
+            const timestamp = Date.now().toString();
+            const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            const tableNum = currentTable.toString().padStart(2, '0');
+            return `T${tableNum}-${randomNum}-${timestamp.slice(-4)}`;
+        }
+
         // Professional confirmation modal functions
         function showConfirmationModal(confirmationNumber, orderData) {
+            console.log('🔄 Showing confirmation modal with number:', confirmationNumber);
+            
             // Update confirmation details
             document.getElementById('confirmationCode').textContent = confirmationNumber;
             document.getElementById('confirmationTable').textContent = currentTable;
@@ -1125,6 +1144,9 @@
             
             // Show modal
             document.getElementById('confirmationModal').style.display = 'flex';
+            
+            // Show success notification
+            showNotification(`🎉 Order confirmed! Your confirmation number: ${confirmationNumber}`, 'success');
         }
 
         function closeConfirmation() {
@@ -1145,8 +1167,8 @@
             
             // Set background color based on type
             const bgColor = type === 'success' ? 'var(--success-green)' : 
-                           type === 'error' ? 'var(--warning-red)' : 
-                           type === 'warning' ? '#f39c12' : 'var(--primary-sage)';
+                        type === 'error' ? 'var(--warning-red)' : 
+                        type === 'warning' ? '#f39c12' : 'var(--primary-sage)';
             
             notification.style.background = bgColor;
             
