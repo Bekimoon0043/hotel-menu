@@ -707,34 +707,37 @@
                 return;
             }
 
+            // Prepare order data
             const orderData = {
                 table: currentTable,
                 customerName: document.getElementById('customerName').value || 'Guest',
                 specialInstructions: document.getElementById('specialInstructions').value || 'None',
-                items: cart,
+                items: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity
+                })),
                 total: document.getElementById('cartTotal').textContent,
                 timestamp: new Date().toISOString()
             };
+
+            console.log('🔄 Sending order data:', orderData);
 
             try {
                 const submitButton = document.querySelector('.submit-order');
                 submitButton.disabled = true;
                 submitButton.innerHTML = '⏳ Sending Order...';
 
-                // REAL API CALL to n8n order webhook
-                console.log('Sending order to:', ORDER_WEBHOOK_URL);
-                console.log('Order data:', orderData);
-
                 const response = await fetch(ORDER_WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                    'Accept': 'application/json'
                     },
                     body: JSON.stringify(orderData)
                 });
 
-                console.log('Response status:', response.status);
+                console.log('📡 Response status:', response.status);
 
                 if (!response.ok) {
                     const errorText = await response.text();
@@ -742,10 +745,20 @@
                 }
 
                 const result = await response.json();
-                console.log('Order response:', result);
+                console.log('✅ Order response:', result);
 
                 if (result.success) {
-                    showNotification('🎉 Order placed successfully! The kitchen has been notified.', 'success');
+                    // ENHANCED: Show confirmation number to customer
+                    const confirmationNumber = result.confirmationNumber;
+                    showNotification(
+                        `🎉 Order confirmed! Your confirmation number: ${confirmationNumber}`,
+                        'success'
+                    );
+                    
+                    // Optional: Show a more prominent confirmation
+                    setTimeout(() => {
+                        alert(`✅ ORDER CONFIRMED!\n\nConfirmation Number: ${confirmationNumber}\nTable: ${currentTable}\nTotal: $${orderData.total}\n\nThank you for your order! The kitchen has been notified.`);
+                    }, 1000);
                     
                     // Clear cart and form
                     cart = [];
@@ -757,7 +770,7 @@
                 }
 
             } catch (error) {
-                console.error('Order submission error:', error);
+                console.error('❌ Order submission error:', error);
                 showNotification(`❌ Failed to place order: ${error.message}`, 'error');
             } finally {
                 const submitButton = document.querySelector('.submit-order');
@@ -765,7 +778,6 @@
                 submitButton.innerHTML = '🚀 Place Order & Notify Kitchen';
             }
         }
-
         // Notification system
         function showNotification(message, type = 'info') {
             // Remove existing notification
