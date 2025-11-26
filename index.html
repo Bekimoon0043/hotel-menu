@@ -44,90 +44,101 @@
           border: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* ===== LANGUAGE SELECTOR ===== */
+        /* ===== RESPONSIVE LANGUAGE SELECTOR ===== */
         .language-selector {
           position: absolute;
           top: 20px;
           right: 20px;
           z-index: 100;
-          display: flex;
-          gap: 5px;
-          flex-wrap: wrap;
-          justify-content: flex-end;
         }
 
-        .language-btn {
-          background: rgba(255, 255, 255, 0.95);
+        .language-toggle {
+          background: rgba(255, 255, 255, 0.9);
           border: 1px solid var(--primary-sage);
-          padding: 8px 12px;
           border-radius: 20px;
           cursor: pointer;
-          font-size: 0.85em;
-          font-weight: 600;
+          padding: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           transition: all 0.3s ease;
-          white-space: nowrap;
-          min-width: max-content;
+          width: 40px;
+          height: 40px;
           backdrop-filter: blur(10px);
         }
 
-        .language-btn.active {
+        .language-toggle:hover {
+          background: var(--primary-sage);
+        }
+
+        .language-toggle:hover .language-icon {
+          color: white;
+        }
+
+        .language-icon {
+          font-size: 1.2em;
+          color: var(--primary-sage);
+          transition: color 0.3s ease;
+        }
+
+        .language-dropdown {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid var(--primary-sage);
+          border-radius: 10px;
+          padding: 5px;
+          margin-top: 5px;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          display: none;
+          flex-direction: column;
+          min-width: 120px;
+          backdrop-filter: blur(10px);
+          animation: fadeIn 0.3s ease;
+        }
+
+        .language-dropdown.active {
+          display: flex;
+        }
+
+        .language-option {
+          background: transparent;
+          border: none;
+          padding: 10px 15px;
+          cursor: pointer;
+          border-radius: 8px;
+          text-align: left;
+          transition: all 0.2s ease;
+          font-weight: 600;
+          color: var(--dark-text);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .language-option:hover {
           background: var(--primary-sage);
           color: white;
-          border-color: var(--primary-sage);
         }
 
-        .language-btn:hover {
-          background: var(--primary-dark);
+        .language-option.active {
+          background: var(--primary-sage);
           color: white;
-          border-color: var(--primary-dark);
-          transform: translateY(-1px);
         }
 
-        /* Responsive adjustments for language selector */
-        @media (max-width: 768px) {
-          .language-selector {
-            top: 15px;
-            right: 15px;
-            gap: 4px;
-          }
-          
-          .language-btn {
-            padding: 6px 10px;
-            font-size: 0.8em;
-          }
+        .language-flag {
+          width: 20px;
+          height: 15px;
+          border-radius: 2px;
+          object-fit: cover;
         }
 
-        @media (max-width: 480px) {
-          .language-selector {
-            top: 10px;
-            right: 10px;
-            position: relative;
-            justify-content: center;
-            margin-bottom: 10px;
-            top: 0;
-            right: 0;
-            padding: 0 15px;
-          }
-          
-          .language-btn {
-            padding: 5px 8px;
-            font-size: 0.75em;
-            flex: 1;
-            min-width: 0;
-            text-align: center;
-          }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 360px) {
-          .language-selector {
-            gap: 3px;
-          }
-          
-          .language-btn {
-            padding: 4px 6px;
-            font-size: 0.7em;
-          }
-        }
         /* ===== ENHANCED HEADER & NAVIGATION ===== */
         .header {
           background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-sage) 100%);
@@ -828,6 +839,12 @@
           .confirmation-actions {
             padding: 18px 25px;
           }
+
+          /* Language selector responsive */
+          .language-selector {
+            top: 15px;
+            right: 15px;
+          }
         }
 
         @media (max-width: 480px) {
@@ -855,6 +872,18 @@
           .confirmation-content {
             max-height: 95vh;
           }
+
+          /* Language selector responsive */
+          .language-selector {
+            top: 10px;
+            right: 10px;
+          }
+          
+          .language-dropdown {
+            right: 0;
+            left: auto;
+            transform-origin: top right;
+          }
         }
     </style>
 </head>
@@ -862,9 +891,23 @@
     <div class="container">
         <!-- Language Selector -->
         <div class="language-selector">
-            <button class="language-btn active" data-lang="en">English</button>
-            <button class="language-btn" data-lang="am">አማርኛ</button>
-            <button class="language-btn" data-lang="om">Afaan Oromoo</button>
+            <div class="language-toggle" id="languageToggle">
+                <span class="language-icon">🌐</span>
+            </div>
+            <div class="language-dropdown" id="languageDropdown">
+                <button class="language-option active" data-lang="en">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjMDEyMTY1Ii8+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIwIiB5PSI2IiB3aWR0aD0iNjAiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjEyIiB3aWR0aD0iNjAiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjE4IiB3aWR0aD0iNjAiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjI0IiB3aWR0aD0iNjAiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxNiIgZmlsbD0iIzAxMjE2NSIvPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMCIgeT0iNiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIwIiB5PSIxMiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIwIiB5PSIxOCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiLz48L3N2Zz4=" alt="English" class="language-flag">
+                    English
+                </button>
+                <button class="language-option" data-lang="am">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZmYwMDAwIi8+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMCIgeT0iMTAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxMCIgZmlsbD0iIzAwODAwMCIvPjxyZWN0IHg9IjAiIHk9IjIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMTAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjE1IiByPSI2IiBmaWxsPSIjZmYwMDAwIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNSIgcj0iNCIgZmlsbD0iIzAwODAwMCIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMTUiIHI9IjIiIGZpbGw9IiNmZmYiLz48L3N2Zz4=" alt="Amharic" class="language-flag">
+                    አማርኛ
+                </button>
+                <button class="language-option" data-lang="om">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMDA2ODMzIi8+PHJlY3QgeD0iMCIgeT0iMTAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxMCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMTAiIGZpbGw9IiNmZjAwMDAiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjE1IiByPSI2IiBmaWxsPSIjMDA2ODMzIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNSIgcj0iNCIgZmlsbD0iI2ZmMDAwMCIvPjxjaXJjbGUgY3g9IjMwIiBcyY3k9IjE1IiByPSIyIiBmaWxsPSIjZmZmIi8+PC9zdmc+" alt="Oromo" class="language-flag">
+                    Afaan Oromoo
+                </button>
+            </div>
         </div>
 
         <div class="header">
@@ -1165,7 +1208,7 @@
             currentLanguage = lang;
             
             // Update language buttons
-            document.querySelectorAll('.language-btn').forEach(btn => {
+            document.querySelectorAll('.language-option').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.lang === lang) {
                     btn.classList.add('active');
@@ -1190,6 +1233,9 @@
             
             // Save language preference
             localStorage.setItem('preferredLanguage', lang);
+            
+            // Close dropdown after selection
+            closeLanguageDropdown();
         }
 
         function translateNotification(message, type = 'info', replacements = {}) {
@@ -1202,6 +1248,25 @@
             
             return translatedMessage;
         }
+
+        // Language dropdown functionality
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function closeLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.remove('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const languageSelector = document.querySelector('.language-selector');
+            if (!languageSelector.contains(event.target)) {
+                closeLanguageDropdown();
+            }
+        });
 
         // Get table number from URL
         function getTableNumber() {
@@ -1536,14 +1601,6 @@
             });
         });
 
-        // Language switcher
-        document.querySelectorAll('.language-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const lang = button.getAttribute('data-lang');
-                setLanguage(lang);
-            });
-        });
-
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
             currentTable = getTableNumber();
@@ -1552,6 +1609,17 @@
             // Set language from localStorage or default to English
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             setLanguage(savedLanguage);
+            
+            // Add event listener for language toggle
+            document.getElementById('languageToggle').addEventListener('click', toggleLanguageDropdown);
+            
+            // Add event listeners for language options
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const lang = option.getAttribute('data-lang');
+                    setLanguage(lang);
+                });
+            });
             
             loadMenuItems();
         });
