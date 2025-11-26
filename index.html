@@ -827,7 +827,62 @@
             `;
             document.head.appendChild(style);
         });
+        async function submitOrder() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty. Please add items before ordering.', 'warning');
+                return;
+            }
+
+            const orderData = {
+                table: currentTable,
+                customerName: document.getElementById('customerName').value || 'Guest',
+                specialInstructions: document.getElementById('specialInstructions').value || 'None',
+                items: cart,
+                total: document.getElementById('cartTotal').textContent,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const submitButton = document.querySelector('.submit-order');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '⏳ Sending Order...';
+
+                // REAL API CALL - remove the simulation
+                const response = await fetch(ORDER_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Failed to submit order');
+                }
+
+                if (result.success) {
+                    showNotification('🎉 Order placed successfully! The kitchen has been notified.', 'success');
+                    
+                    // Clear cart and form
+                    cart = [];
+                    updateCartDisplay();
+                    document.getElementById('customerName').value = '';
+                    document.getElementById('specialInstructions').value = '';
+                } else {
+                    throw new Error(result.message || 'Order failed');
+                }
+
+            } catch (error) {
+                console.error('Order submission error:', error);
+                showNotification('❌ Failed to place order. Please try again.', 'error');
+            } finally {
+                const submitButton = document.querySelector('.submit-order');
+                submitButton.disabled = false;
+                submitButton.innerHTML = '🚀 Place Order & Notify Kitchen';
+            }
+        }
     </script>
 </body>
-
 </html>
