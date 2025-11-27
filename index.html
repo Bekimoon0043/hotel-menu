@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luxury Hotel Restaurant - Premium Dining</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ===== MODERN FOOD WEBSITE CSS ===== */
         /* Professional Color Scheme: Sage Green, Cream, Warm Brown */
@@ -17,6 +18,7 @@
           --medium-gray: #666666;
           --success-green: #27ae60;
           --warning-red: #e74c3c;
+          --sidebar-width: 280px;
         }
 
         * {
@@ -29,124 +31,96 @@
           font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
           background: linear-gradient(135deg, var(--cream-bg) 0%, #ffffff 100%);
           min-height: 100vh;
-          padding: 20px;
           color: var(--dark-text);
           line-height: 1.6;
+          overflow-x: hidden;
         }
 
+        /* ===== MOBILE-FIRST CONTAINER ===== */
         .container {
-          max-width: 1200px;
-          margin: 0 auto;
+          width: 100%;
+          min-height: 100vh;
           background: white;
-          border-radius: 20px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-          overflow: hidden;
-          border: 1px solid rgba(0,0,0,0.05);
+          box-shadow: 0 0 20px rgba(0,0,0,0.05);
+          position: relative;
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ===== RESPONSIVE LANGUAGE SELECTOR ===== */
-        .language-selector {
-          position: absolute;
-          top: 20px;
-          right: 20px;
+        .container.sidebar-open {
+          transform: translateX(var(--sidebar-width));
+        }
+
+        /* ===== SIDEBAR NAVIGATION ===== */
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: calc(-1 * var(--sidebar-width));
+          width: var(--sidebar-width);
+          height: 100%;
+          background: white;
+          box-shadow: 2px 0 15px rgba(0,0,0,0.1);
           z-index: 100;
+          padding: 20px;
+          overflow-y: auto;
+          transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .language-toggle {
-          background: rgba(255, 255, 255, 0.9);
-          border: 1px solid var(--primary-sage);
-          border-radius: 20px;
-          cursor: pointer;
-          padding: 8px;
+        .sidebar-open .sidebar {
+          left: 0;
+        }
+
+        .sidebar-header {
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-          width: 40px;
-          height: 40px;
-          backdrop-filter: blur(10px);
+          margin-bottom: 30px;
+          padding-bottom: 15px;
+          border-bottom: 1px solid #eee;
         }
 
-        .language-toggle:hover {
-          background: var(--primary-sage);
-        }
-
-        .language-toggle:hover .language-icon {
-          color: white;
-        }
-
-        .language-icon {
-          font-size: 1.2em;
-          color: var(--primary-sage);
-          transition: color 0.3s ease;
-        }
-
-        .language-dropdown {
-          position: absolute;
-          top: 100%;
-          right: 0;
-          background: rgba(255, 255, 255, 0.95);
-          border: 1px solid var(--primary-sage);
-          border-radius: 10px;
-          padding: 5px;
-          margin-top: 5px;
-          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-          display: none;
-          flex-direction: column;
-          min-width: 120px;
-          backdrop-filter: blur(10px);
-          animation: fadeIn 0.3s ease;
-        }
-
-        .language-dropdown.active {
-          display: flex;
-        }
-
-        .language-option {
-          background: transparent;
+        .sidebar-close {
+          background: none;
           border: none;
-          padding: 10px 15px;
+          font-size: 1.5em;
+          color: var(--medium-gray);
           cursor: pointer;
-          border-radius: 8px;
-          text-align: left;
-          transition: all 0.2s ease;
-          font-weight: 600;
-          color: var(--dark-text);
+        }
+
+        .sidebar-nav {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .sidebar-nav-item {
+          padding: 15px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 15px;
+          text-decoration: none;
+          color: var(--dark-text);
+          transition: all 0.3s ease;
         }
 
-        .language-option:hover {
-          background: var(--primary-sage);
-          color: white;
+        .sidebar-nav-item:hover, .sidebar-nav-item.active {
+          background: var(--light-cream);
+          color: var(--primary-dark);
         }
 
-        .language-option.active {
-          background: var(--primary-sage);
-          color: white;
-        }
-
-        .language-flag {
-          width: 20px;
-          height: 15px;
-          border-radius: 2px;
-          object-fit: cover;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
+        .sidebar-nav-item i {
+          width: 24px;
+          text-align: center;
         }
 
         /* ===== ENHANCED HEADER & NAVIGATION ===== */
         .header {
           background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-sage) 100%);
           color: white;
-          padding: 30px 20px;
-          text-align: center;
+          padding: 25px 20px;
           position: relative;
           overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .header::before {
@@ -161,19 +135,50 @@
           opacity: 0.1;
         }
 
+        .header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: relative;
+          z-index: 2;
+        }
+
+        .header-text {
+          flex: 1;
+        }
+
         .header h1 {
-          font-size: 2.8em;
-          margin-bottom: 10px;
+          font-size: 1.8em;
+          margin-bottom: 5px;
           font-weight: 700;
           letter-spacing: -0.5px;
-          position: relative;
         }
 
         .header p {
-          font-size: 1.2em;
+          font-size: 1em;
           opacity: 0.9;
           font-weight: 300;
-          position: relative;
+        }
+
+        .menu-toggle {
+          background: rgba(255, 255, 255, 0.2);
+          border: none;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 1.2em;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+
+        .menu-toggle:hover {
+          background: rgba(255, 255, 255, 0.3);
+          transform: scale(1.05);
         }
 
         .table-info {
@@ -181,23 +186,61 @@
           color: white;
           padding: 15px;
           text-align: center;
-          font-size: 1.3em;
+          font-size: 1.1em;
           font-weight: 600;
           letter-spacing: 0.5px;
+          box-shadow: 0 4px 8px rgba(184, 80, 66, 0.2);
+        }
+
+        /* ===== LANGUAGE SELECTOR ===== */
+        .language-selector {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          z-index: 100;
+          display: flex;
+          gap: 5px;
+        }
+
+        .language-btn {
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid var(--primary-sage);
+          padding: 6px 12px;
+          border-radius: 20px;
+          cursor: pointer;
+          font-size: 0.8em;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+
+        .language-btn.active {
+          background: var(--primary-sage);
+          color: white;
+        }
+
+        .language-btn:hover {
+          background: var(--primary-dark);
+          color: white;
         }
 
         /* ===== MODERN CATEGORY FILTERS ===== */
         .categories {
           display: flex;
           background: var(--light-cream);
-          padding: 20px;
+          padding: 15px;
           overflow-x: auto;
-          gap: 12px;
+          gap: 10px;
           border-bottom: 1px solid rgba(0,0,0,0.08);
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+
+        .categories::-webkit-scrollbar {
+          display: none;
         }
 
         .category-btn {
-          padding: 12px 24px;
+          padding: 12px 20px;
           background: white;
           color: var(--dark-text);
           border: 1px solid #e0e0e0;
@@ -206,7 +249,8 @@
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           font-weight: 600;
           white-space: nowrap;
-          font-size: 0.95em;
+          font-size: 0.9em;
+          flex-shrink: 0;
         }
 
         .category-btn.active, .category-btn:hover {
@@ -220,10 +264,18 @@
         /* ===== MODERN MENU ITEMS ===== */
         .menu-items {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-          gap: 25px;
-          padding: 30px;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 20px;
+          padding: 20px;
           background: var(--light-cream);
+        }
+
+        @media (max-width: 480px) {
+          .menu-items {
+            grid-template-columns: 1fr;
+            padding: 15px;
+            gap: 15px;
+          }
         }
 
         .menu-item {
@@ -231,10 +283,20 @@
           border-radius: 16px;
           padding: 20px;
           box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           border: 1px solid #f0f0f0;
           position: relative;
           overflow: hidden;
+          animation: fadeInUp 0.6s ease forwards;
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .menu-item::before {
@@ -260,19 +322,19 @@
 
         .item-image {
           width: 100%;
-          height: 220px;
+          height: 180px;
           object-fit: cover;
           border-radius: 12px;
           margin-bottom: 15px;
-          transition: transform 0.3s ease;
+          transition: transform 0.5s ease;
         }
 
         .menu-item:hover .item-image {
-          transform: scale(1.03);
+          transform: scale(1.05);
         }
 
         .item-name {
-          font-size: 1.3em;
+          font-size: 1.2em;
           font-weight: 700;
           color: var(--dark-text);
           margin-bottom: 8px;
@@ -282,12 +344,12 @@
         .item-description {
           color: var(--medium-gray);
           margin-bottom: 15px;
-          font-size: 0.92em;
+          font-size: 0.9em;
           line-height: 1.5;
         }
 
         .item-price {
-          font-size: 1.5em;
+          font-size: 1.4em;
           color: var(--warm-brown);
           font-weight: 800;
           margin-bottom: 20px;
@@ -344,6 +406,23 @@
           transition: all 0.3s ease;
           text-transform: uppercase;
           letter-spacing: 0.5px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .add-to-cart::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .add-to-cart:hover::before {
+          left: 100%;
         }
 
         .add-to-cart:hover {
@@ -354,7 +433,7 @@
         /* ===== CART SECTION ===== */
         .cart-section {
           background: white;
-          padding: 30px;
+          padding: 25px 20px;
           border-top: 3px solid var(--primary-sage);
         }
 
@@ -362,12 +441,12 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 25px;
+          margin-bottom: 20px;
         }
 
         .cart-header h2 {
           color: var(--primary-dark);
-          font-size: 1.8em;
+          font-size: 1.6em;
           font-weight: 300;
         }
 
@@ -375,7 +454,7 @@
           background: var(--warm-brown);
           color: white;
           border: none;
-          padding: 10px 20px;
+          padding: 10px 18px;
           border-radius: 8px;
           cursor: pointer;
           font-weight: 600;
@@ -387,9 +466,9 @@
         }
 
         .cart-items {
-          max-height: 400px;
+          max-height: 300px;
           overflow-y: auto;
-          margin-bottom: 25px;
+          margin-bottom: 20px;
           border: 1px solid #e9ecef;
           border-radius: 10px;
           padding: 15px;
@@ -399,9 +478,21 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 15px;
+          padding: 12px;
           border-bottom: 1px solid #f1f3f4;
           transition: background 0.2s ease;
+          animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
         }
 
         .cart-item:hover {
@@ -448,12 +539,12 @@
         }
 
         .cart-total {
-          font-size: 1.8em;
+          font-size: 1.6em;
           font-weight: 800;
           text-align: right;
-          margin-bottom: 30px;
+          margin-bottom: 25px;
           color: var(--primary-dark);
-          padding: 20px;
+          padding: 18px;
           background: var(--light-cream);
           border-radius: 10px;
         }
@@ -461,21 +552,21 @@
         /* ===== ORDER FORM ===== */
         .order-form {
           background: var(--light-cream);
-          padding: 30px;
+          padding: 25px;
           border-radius: 15px;
           border: 1px solid #e9ecef;
         }
 
         .order-form h3 {
           color: var(--primary-dark);
-          margin-bottom: 25px;
-          font-size: 1.6em;
+          margin-bottom: 20px;
+          font-size: 1.5em;
           font-weight: 300;
           text-align: center;
         }
 
         .form-group {
-          margin-bottom: 20px;
+          margin-bottom: 18px;
         }
 
         .form-group label {
@@ -487,7 +578,7 @@
 
         .form-group input, .form-group textarea {
           width: 100%;
-          padding: 15px;
+          padding: 14px;
           border: 2px solid #e9ecef;
           border-radius: 10px;
           font-size: 1em;
@@ -503,18 +594,35 @@
 
         .submit-order {
           width: 100%;
-          padding: 18px;
+          padding: 16px;
           background: linear-gradient(135deg, var(--warm-brown) 0%, #a84336 100%);
           color: white;
           border: none;
           border-radius: 12px;
-          font-size: 1.3em;
+          font-size: 1.2em;
           font-weight: 700;
           cursor: pointer;
           transition: all 0.3s ease;
           text-transform: uppercase;
           letter-spacing: 1px;
           margin-top: 10px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .submit-order::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .submit-order:hover::before {
+          left: 100%;
         }
 
         .submit-order:hover {
@@ -533,7 +641,7 @@
           cursor: not-allowed;
         }
 
-        /* ===== PROFESSIONAL CONFIRMATION MODAL - FIXED HEIGHT ===== */
+        /* ===== PROFESSIONAL CONFIRMATION MODAL ===== */
         .confirmation-modal {
           display: none;
           position: fixed;
@@ -542,19 +650,20 @@
           width: 100%;
           height: 100%;
           background: rgba(0, 0, 0, 0.8);
-          z-index: 1000;
+          z-index: 200;
           justify-content: center;
           align-items: center;
           padding: 20px;
+          backdrop-filter: blur(5px);
         }
 
         .confirmation-content {
           background: white;
           border-radius: 20px;
-          max-width: 500px;
           width: 100%;
-          max-height: 85vh; /* Fixed maximum height */
-          overflow-y: auto; /* Scroll if content is too long */
+          max-width: 500px;
+          max-height: 85vh;
+          overflow-y: auto;
           box-shadow: 0 20px 60px rgba(0,0,0,0.3);
           animation: modalAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -795,27 +904,57 @@
         }
 
         /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
           .container {
-            border-radius: 15px;
+            max-width: 1200px;
+            margin: 20px auto;
+            border-radius: 20px;
+            overflow: hidden;
+          }
+          
+          .header {
+            padding: 30px 40px;
           }
           
           .header h1 {
-            font-size: 2.2em;
+            font-size: 2.5em;
+          }
+          
+          .header p {
+            font-size: 1.2em;
           }
           
           .menu-items {
-            grid-template-columns: 1fr;
-            padding: 20px;
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            padding: 30px;
+            gap: 25px;
           }
           
           .categories {
-            padding: 15px;
+            padding: 20px;
           }
           
           .cart-section {
-            padding: 20px;
+            padding: 30px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .header {
+            padding: 20px 15px;
+          }
+          
+          .header h1 {
+            font-size: 1.6em;
+          }
+          
+          .category-btn {
+            padding: 10px 18px;
+            font-size: 0.85em;
+          }
+          
+          .confirmation-code {
+            font-size: 1.5em;
           }
           
           .confirmation-content {
@@ -839,132 +978,138 @@
           .confirmation-actions {
             padding: 18px 25px;
           }
-
-          /* Language selector responsive */
-          .language-selector {
-            top: 15px;
-            right: 15px;
-          }
         }
 
-        @media (max-width: 480px) {
-          body {
-            padding: 10px;
-          }
-          
-          .header {
-            padding: 25px 15px;
-          }
-          
-          .header h1 {
-            font-size: 1.9em;
-          }
-          
-          .category-btn {
-            padding: 10px 18px;
-            font-size: 0.9em;
-          }
-          
-          .confirmation-code {
-            font-size: 1.5em;
-          }
+        /* ===== SCROLLBAR STYLING ===== */
+        ::-webkit-scrollbar {
+          width: 6px;
+        }
 
-          .confirmation-content {
-            max-height: 95vh;
-          }
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
 
-          /* Language selector responsive */
-          .language-selector {
-            top: 10px;
-            right: 10px;
-          }
-          
-          .language-dropdown {
-            right: 0;
-            left: auto;
-            transform-origin: top right;
-          }
+        ::-webkit-scrollbar-thumb {
+          background: var(--primary-sage);
+          border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: var(--primary-dark);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Language Selector -->
-        <div class="language-selector">
-            <div class="language-toggle" id="languageToggle">
-                <span class="language-icon">🌐</span>
-            </div>
-            <div class="language-dropdown" id="languageDropdown">
-                <button class="language-option active" data-lang="en">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjMDEyMTY1Ii8+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIwIiB5PSI2IiB3aWR0aD0iNjAiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjEyIiB3aWR0aD0iNjAiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjE4IiB3aWR0aD0iNjAiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjI0IiB3aWR0aD0iNjAiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxNiIgZmlsbD0iIzAxMjE2NSIvPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMCIgeT0iNiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIwIiB5PSIxMiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIwIiB5PSIxOCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiLz48L3N2Zz4=" alt="English" class="language-flag">
-                    English
-                </button>
-                <button class="language-option" data-lang="am">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZmYwMDAwIi8+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMCIgeT0iMTAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxMCIgZmlsbD0iIzAwODAwMCIvPjxyZWN0IHg9IjAiIHk9IjIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMTAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjE1IiByPSI2IiBmaWxsPSIjZmYwMDAwIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNSIgcj0iNCIgZmlsbD0iIzAwODAwMCIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMTUiIHI9IjIiIGZpbGw9IiNmZmYiLz48L3N2Zz4=" alt="Amharic" class="language-flag">
-                    አማርኛ
-                </button>
-                <button class="language-option" data-lang="om">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMDA2ODMzIi8+PHJlY3QgeD0iMCIgeT0iMTAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxMCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMTAiIGZpbGw9IiNmZjAwMDAiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjE1IiByPSI2IiBmaWxsPSIjMDA2ODMzIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNSIgcj0iNCIgZmlsbD0iI2ZmMDAwMCIvPjxjaXJjbGUgY3g9IjMwIiBcyY3k9IjE1IiByPSIyIiBmaWxsPSIjZmZmIi8+PC9zdmc+" alt="Oromo" class="language-flag">
-                    Afaan Oromoo
+    <div class="container" id="mainContainer">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Navigation</h2>
+                <button class="sidebar-close" id="sidebarClose">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-nav-item active">
+                    <i class="fas fa-utensils"></i>
+                    <span>Menu</span>
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Your Order</span>
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <i class="fas fa-history"></i>
+                    <span>Order History</span>
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About Us</span>
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <i class="fas fa-phone"></i>
+                    <span>Contact</span>
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
         </div>
 
-        <div class="header">
-            <h1 data-i18n="restaurant_name">🍽️ Luxury Hotel Restaurant</h1>
-            <p data-i18n="restaurant_tagline">Exquisite Dining Experience</p>
-        </div>
-        
-        <div class="table-info">
-            <span data-i18n="serving_table">🎯 Currently Serving: Table</span> <span id="tableNumber">1</span>
-        </div>
-
-        <div class="categories">
-            <button class="category-btn active" data-category="all" data-i18n="all_menu">All Menu</button>
-            <button class="category-btn" data-category="food" data-i18n="main_course">Main Course</button>
-            <button class="category-btn" data-category="drinks" data-i18n="beverages">Beverages</button>
-            <button class="category-btn" data-category="appetizers" data-i18n="appetizers">Appetizers</button>
-            <button class="category-btn" data-category="desserts" data-i18n="desserts">Desserts</button>
-        </div>
-
-        <div class="menu-items" id="menuContainer">
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <span data-i18n="loading_menu">Loading our delicious menu...</span>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <button class="language-btn active" data-lang="en">EN</button>
+                <button class="language-btn" data-lang="am">AM</button>
+                <button class="language-btn" data-lang="om">OM</button>
             </div>
-        </div>
 
-        <div class="cart-section">
-            <div class="cart-header">
-                <h2 data-i18n="your_order">🛒 Your Order</h2>
-                <button class="clear-cart" onclick="clearCart()" data-i18n="clear_cart">Clear Cart</button>
-            </div>
-            
-            <div class="cart-items" id="cartItems">
-                <div class="empty-state">
-                    <div>📝</div>
-                    <h3 data-i18n="cart_empty">Your cart is empty</h3>
-                    <p data-i18n="add_items">Add some delicious items from our menu</p>
+            <div class="header">
+                <div class="header-content">
+                    <div class="header-text">
+                        <h1 data-i18n="restaurant_name">🍽️ Luxury Hotel Restaurant</h1>
+                        <p data-i18n="restaurant_tagline">Exquisite Dining Experience</p>
+                    </div>
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
             
-            <div class="cart-total">
-                <span data-i18n="total_amount">Total Amount:</span> $<span id="cartTotal">0.00</span>
+            <div class="table-info">
+                <span data-i18n="serving_table">🎯 Currently Serving: Table</span> <span id="tableNumber">1</span>
             </div>
 
-            <div class="order-form">
-                <h3 data-i18n="complete_order">Complete Your Order</h3>
-                <div class="form-group">
-                    <label for="customerName" data-i18n="your_name">👤 Your Name (Optional)</label>
-                    <input type="text" id="customerName" data-i18n-placeholder="name_placeholder" placeholder="Enter your name for the order">
+            <div class="categories">
+                <button class="category-btn active" data-category="all" data-i18n="all_menu">All Menu</button>
+                <button class="category-btn" data-category="food" data-i18n="main_course">Main Course</button>
+                <button class="category-btn" data-category="drinks" data-i18n="beverages">Beverages</button>
+                <button class="category-btn" data-category="appetizers" data-i18n="appetizers">Appetizers</button>
+                <button class="category-btn" data-category="desserts" data-i18n="desserts">Desserts</button>
+            </div>
+
+            <div class="menu-items" id="menuContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <span data-i18n="loading_menu">Loading our delicious menu...</span>
                 </div>
-                <div class="form-group">
-                    <label for="specialInstructions" data-i18n="special_instructions">📝 Special Instructions</label>
-                    <textarea id="specialInstructions" rows="4" data-i18n-placeholder="instructions_placeholder" placeholder="Any allergies, dietary restrictions, or special requests..."></textarea>
+            </div>
+
+            <div class="cart-section">
+                <div class="cart-header">
+                    <h2 data-i18n="your_order">🛒 Your Order</h2>
+                    <button class="clear-cart" onclick="clearCart()" data-i18n="clear_cart">Clear Cart</button>
                 </div>
-                <button class="submit-order" onclick="submitOrder()">
-                    <span data-i18n="place_order">🚀 Place Order & Notify Kitchen</span>
-                </button>
+                
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-state">
+                        <div>📝</div>
+                        <h3 data-i18n="cart_empty">Your cart is empty</h3>
+                        <p data-i18n="add_items">Add some delicious items from our menu</p>
+                    </div>
+                </div>
+                
+                <div class="cart-total">
+                    <span data-i18n="total_amount">Total Amount:</span> $<span id="cartTotal">0.00</span>
+                </div>
+
+                <div class="order-form">
+                    <h3 data-i18n="complete_order">Complete Your Order</h3>
+                    <div class="form-group">
+                        <label for="customerName" data-i18n="your_name">👤 Your Name (Optional)</label>
+                        <input type="text" id="customerName" data-i18n-placeholder="name_placeholder" placeholder="Enter your name for the order">
+                    </div>
+                    <div class="form-group">
+                        <label for="specialInstructions" data-i18n="special_instructions">📝 Special Instructions</label>
+                        <textarea id="specialInstructions" rows="4" data-i18n-placeholder="instructions_placeholder" placeholder="Any allergies, dietary restrictions, or special requests..."></textarea>
+                    </div>
+                    <button class="submit-order" onclick="submitOrder()">
+                        <span data-i18n="place_order">🚀 Place Order & Notify Kitchen</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1208,7 +1353,7 @@
             currentLanguage = lang;
             
             // Update language buttons
-            document.querySelectorAll('.language-option').forEach(btn => {
+            document.querySelectorAll('.language-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.lang === lang) {
                     btn.classList.add('active');
@@ -1233,9 +1378,6 @@
             
             // Save language preference
             localStorage.setItem('preferredLanguage', lang);
-            
-            // Close dropdown after selection
-            closeLanguageDropdown();
         }
 
         function translateNotification(message, type = 'info', replacements = {}) {
@@ -1249,24 +1391,10 @@
             return translatedMessage;
         }
 
-        // Language dropdown functionality
-        function toggleLanguageDropdown() {
-            const dropdown = document.getElementById('languageDropdown');
-            dropdown.classList.toggle('active');
+        // Sidebar functionality
+        function toggleSidebar() {
+            document.getElementById('mainContainer').classList.toggle('sidebar-open');
         }
-
-        function closeLanguageDropdown() {
-            const dropdown = document.getElementById('languageDropdown');
-            dropdown.classList.remove('active');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const languageSelector = document.querySelector('.language-selector');
-            if (!languageSelector.contains(event.target)) {
-                closeLanguageDropdown();
-            }
-        });
 
         // Get table number from URL
         function getTableNumber() {
@@ -1277,6 +1405,46 @@
         // Load menu from n8n
         async function loadMenuItems() {
             try {
+                // Simulate loading with sample data for demonstration
+                setTimeout(() => {
+                    menuItems = [
+                        {
+                            id: '1',
+                            name: 'Grilled Salmon',
+                            description: 'Fresh Atlantic salmon with lemon butter sauce and seasonal vegetables',
+                            price: 24.99,
+                            category: 'food',
+                            imageurl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop'
+                        },
+                        {
+                            id: '2',
+                            name: 'Caesar Salad',
+                            description: 'Crisp romaine lettuce with Caesar dressing, croutons and parmesan',
+                            price: 12.99,
+                            category: 'appetizers',
+                            imageurl: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop'
+                        },
+                        {
+                            id: '3',
+                            name: 'Chocolate Lava Cake',
+                            description: 'Warm chocolate cake with a molten center, served with vanilla ice cream',
+                            price: 8.99,
+                            category: 'desserts',
+                            imageurl: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&h=300&fit=crop'
+                        },
+                        {
+                            id: '4',
+                            name: 'Fresh Orange Juice',
+                            description: 'Freshly squeezed orange juice, served chilled',
+                            price: 5.99,
+                            category: 'drinks',
+                            imageurl: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&h=300&fit=crop'
+                        }
+                    ];
+                    displayMenuItems(menuItems);
+                }, 1500);
+                
+                /* For actual implementation, uncomment this:
                 const response = await fetch(MENU_WEBHOOK_URL);
                 
                 if (!response.ok) {
@@ -1291,6 +1459,7 @@
                 } else {
                     throw new Error('Invalid menu data received');
                 }
+                */
             } catch (error) {
                 console.error('Error loading menu:', error);
                 document.getElementById('menuContainer').innerHTML = `
@@ -1323,8 +1492,8 @@
                 return;
             }
 
-            container.innerHTML = items.map(item => `
-                <div class="menu-item" data-category="${item.category || 'other'}">
+            container.innerHTML = items.map((item, index) => `
+                <div class="menu-item" data-category="${item.category || 'other'}" style="animation-delay: ${index * 0.1}s">
                     <img src="${item.imageurl || 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop'}" 
                          alt="${item.name}" 
                          class="item-image"
@@ -1468,6 +1637,22 @@
                 submitButton.disabled = true;
                 submitButton.innerHTML = '⏳ ' + translateNotification('place_order');
 
+                // Simulate API call for demonstration
+                setTimeout(() => {
+                    const confirmationNumber = generateFallbackConfirmationNumber();
+                    showConfirmationModal(confirmationNumber, orderData);
+                    
+                    // Clear cart and form
+                    cart = [];
+                    updateCartDisplay();
+                    document.getElementById('customerName').value = '';
+                    document.getElementById('specialInstructions').value = '';
+                    
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '🚀 ' + translateNotification('place_order');
+                }, 2000);
+                
+                /* For actual implementation, uncomment this:
                 const response = await fetch(ORDER_WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
@@ -1507,11 +1692,12 @@
                 } else {
                     throw new Error(result.message || 'Order submission failed');
                 }
+                */
 
             } catch (error) {
                 console.error('❌ Order submission error:', error);
                 showNotification(translateNotification('order_failed', 'error', {error: error.message}), 'error');
-            } finally {
+                
                 const submitButton = document.querySelector('.submit-order');
                 submitButton.disabled = false;
                 submitButton.innerHTML = '🚀 ' + translateNotification('place_order');
@@ -1601,6 +1787,14 @@
             });
         });
 
+        // Language switcher
+        document.querySelectorAll('.language-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
             currentTable = getTableNumber();
@@ -1610,16 +1804,9 @@
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             setLanguage(savedLanguage);
             
-            // Add event listener for language toggle
-            document.getElementById('languageToggle').addEventListener('click', toggleLanguageDropdown);
-            
-            // Add event listeners for language options
-            document.querySelectorAll('.language-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    const lang = option.getAttribute('data-lang');
-                    setLanguage(lang);
-                });
-            });
+            // Setup sidebar functionality
+            document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
+            document.getElementById('sidebarClose').addEventListener('click', toggleSidebar);
             
             loadMenuItems();
         });
