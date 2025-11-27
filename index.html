@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luxury Hotel Restaurant - Premium Dining</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ===== MODERN FOOD WEBSITE CSS ===== */
-        /* Professional Color Scheme: Sage Green, Cream, Warm Brown */
+        /* Professional Color Scheme: Deep Blue, Gold, Cream */
         :root {
-          --primary-sage: #A1BE95;
-          --primary-dark: #2C5F2D;
-          --cream-bg: #FFFDF2;
-          --warm-brown: #B85042;
-          --light-cream: #FAF5E9;
-          --dark-text: #333333;
-          --medium-gray: #666666;
+          --primary-blue: #1A3A5F;
+          --primary-light: #3f77a8;
+          --accent-gold: #f78c12;
+          --accent-light: #F4E4A6;
+          --cream-bg: #FFFDF5;
+          --light-gray: #F5F7FA;
+          --dark-text: #2C3E50;
+          --medium-gray: #7F8C8D;
           --success-green: #27ae60;
           --warning-red: #e74c3c;
         }
@@ -29,7 +32,7 @@
           font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
           background: linear-gradient(135deg, var(--cream-bg) 0%, #ffffff 100%);
           min-height: 100vh;
-          padding: 20px;
+          padding: 15px;
           color: var(--dark-text);
           line-height: 1.6;
         }
@@ -54,21 +57,23 @@
 
         .language-toggle {
           background: rgba(255, 255, 255, 0.9);
-          border: 1px solid var(--primary-sage);
+          border: 1px solid var(--primary-blue);
           border-radius: 20px;
           cursor: pointer;
-          padding: 8px;
+          padding: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          width: 40px;
-          height: 40px;
+          width: 50px;
+          height: 50px;
           backdrop-filter: blur(10px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .language-toggle:hover {
-          background: var(--primary-sage);
+          background: var(--primary-blue);
+          transform: translateY(-2px);
         }
 
         .language-toggle:hover .language-icon {
@@ -76,8 +81,8 @@
         }
 
         .language-icon {
-          font-size: 1.2em;
-          color: var(--primary-sage);
+          font-size: 1.4em;
+          color: var(--primary-blue);
           transition: color 0.3s ease;
         }
 
@@ -86,14 +91,14 @@
           top: 100%;
           right: 0;
           background: rgba(255, 255, 255, 0.95);
-          border: 1px solid var(--primary-sage);
-          border-radius: 10px;
-          padding: 5px;
-          margin-top: 5px;
-          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          border: 1px solid var(--primary-blue);
+          border-radius: 12px;
+          padding: 8px;
+          margin-top: 8px;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
           display: none;
           flex-direction: column;
-          min-width: 120px;
+          min-width: 140px;
           backdrop-filter: blur(10px);
           animation: fadeIn 0.3s ease;
         }
@@ -105,7 +110,7 @@
         .language-option {
           background: transparent;
           border: none;
-          padding: 10px 15px;
+          padding: 12px 15px;
           cursor: pointer;
           border-radius: 8px;
           text-align: left;
@@ -114,22 +119,23 @@
           color: var(--dark-text);
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
+          font-size: 0.95em;
         }
 
         .language-option:hover {
-          background: var(--primary-sage);
+          background: var(--primary-blue);
           color: white;
         }
 
         .language-option.active {
-          background: var(--primary-sage);
+          background: var(--primary-blue);
           color: white;
         }
 
         .language-flag {
-          width: 20px;
-          height: 15px;
+          width: 22px;
+          height: 16px;
           border-radius: 2px;
           object-fit: cover;
         }
@@ -141,7 +147,7 @@
 
         /* ===== ENHANCED HEADER & NAVIGATION ===== */
         .header {
-          background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-sage) 100%);
+          background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%);
           color: white;
           padding: 30px 20px;
           text-align: center;
@@ -177,7 +183,7 @@
         }
 
         .table-info {
-          background: var(--warm-brown);
+          background: var(--accent-gold);
           color: white;
           padding: 15px;
           text-align: center;
@@ -189,15 +195,20 @@
         /* ===== MODERN CATEGORY FILTERS ===== */
         .categories {
           display: flex;
-          background: var(--light-cream);
+          background: var(--light-gray);
           padding: 20px;
           overflow-x: auto;
           gap: 12px;
           border-bottom: 1px solid rgba(0,0,0,0.08);
+          scrollbar-width: none; /* Firefox */
+        }
+
+        .categories::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, Edge */
         }
 
         .category-btn {
-          padding: 12px 24px;
+          padding: 14px 24px;
           background: white;
           color: var(--dark-text);
           border: 1px solid #e0e0e0;
@@ -207,14 +218,22 @@
           font-weight: 600;
           white-space: nowrap;
           font-size: 0.95em;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          min-height: 50px;
+        }
+
+        .category-btn i {
+          font-size: 1.1em;
         }
 
         .category-btn.active, .category-btn:hover {
-          background: var(--primary-sage);
+          background: var(--primary-blue);
           color: white;
-          border-color: var(--primary-sage);
+          border-color: var(--primary-blue);
           transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(161, 190, 149, 0.3);
+          box-shadow: 0 5px 15px rgba(26, 58, 95, 0.3);
         }
 
         /* ===== MODERN MENU ITEMS ===== */
@@ -223,7 +242,7 @@
           grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
           gap: 25px;
           padding: 30px;
-          background: var(--light-cream);
+          background: var(--light-gray);
         }
 
         .menu-item {
@@ -235,6 +254,8 @@
           border: 1px solid #f0f0f0;
           position: relative;
           overflow: hidden;
+          display: flex;
+          flex-direction: column;
         }
 
         .menu-item::before {
@@ -244,7 +265,7 @@
           left: 0;
           right: 0;
           height: 4px;
-          background: linear-gradient(90deg, var(--primary-sage), var(--warm-brown));
+          background: linear-gradient(90deg, var(--primary-blue), var(--accent-gold));
           opacity: 0;
           transition: opacity 0.3s ease;
         }
@@ -284,11 +305,12 @@
           margin-bottom: 15px;
           font-size: 0.92em;
           line-height: 1.5;
+          flex-grow: 1;
         }
 
         .item-price {
           font-size: 1.5em;
-          color: var(--warm-brown);
+          color: var(--accent-gold);
           font-weight: 800;
           margin-bottom: 20px;
         }
@@ -303,59 +325,70 @@
         }
 
         .quantity-btn {
-          width: 38px;
-          height: 38px;
-          background: var(--primary-sage);
+          width: 44px;
+          height: 44px;
+          background: var(--primary-blue);
           color: white;
           border: none;
           border-radius: 50%;
           cursor: pointer;
           font-weight: bold;
-          font-size: 1.1em;
+          font-size: 1.2em;
           transition: all 0.2s ease;
           display: flex;
           align-items: center;
           justify-content: center;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .quantity-btn:hover {
-          background: var(--primary-dark);
+          background: var(--primary-light);
           transform: scale(1.1);
         }
 
         .quantity-display {
-          font-size: 1.3em;
+          font-size: 1.4em;
           font-weight: bold;
-          min-width: 40px;
+          min-width: 50px;
           text-align: center;
           color: var(--dark-text);
         }
 
         .add-to-cart {
           width: 100%;
-          padding: 14px;
-          background: linear-gradient(135deg, var(--primary-sage) 0%, var(--primary-dark) 100%);
+          padding: 16px;
+          background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%);
           color: white;
           border: none;
-          border-radius: 10px;
+          border-radius: 12px;
           cursor: pointer;
-          font-size: 1em;
+          font-size: 1.1em;
           font-weight: 600;
           transition: all 0.3s ease;
           text-transform: uppercase;
           letter-spacing: 0.5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          box-shadow: 0 4px 12px rgba(26, 58, 95, 0.2);
+          min-height: 54px;
         }
 
         .add-to-cart:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(44, 95, 45, 0.3);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(26, 58, 95, 0.3);
+        }
+
+        .add-to-cart i {
+          font-size: 1.2em;
         }
 
         /* ===== CART SECTION ===== */
         .cart-section {
           background: white;
           padding: 30px;
-          border-top: 3px solid var(--primary-sage);
+          border-top: 3px solid var(--primary-blue);
         }
 
         .cart-header {
@@ -366,24 +399,32 @@
         }
 
         .cart-header h2 {
-          color: var(--primary-dark);
+          color: var(--primary-blue);
           font-size: 1.8em;
-          font-weight: 300;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 10px;
         }
 
         .clear-cart {
-          background: var(--warm-brown);
+          background: var(--warning-red);
           color: white;
           border: none;
-          padding: 10px 20px;
-          border-radius: 8px;
+          padding: 12px 20px;
+          border-radius: 10px;
           cursor: pointer;
           font-weight: 600;
           transition: background 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2);
         }
 
         .clear-cart:hover {
-          background: #a84336;
+          background: #c0392b;
+          transform: translateY(-2px);
         }
 
         .cart-items {
@@ -429,22 +470,29 @@
 
         .cart-item-price {
           font-weight: 700;
-          color: var(--warm-brown);
+          color: var(--accent-gold);
           font-size: 1.1em;
         }
 
         .cart-item-remove {
           background: none;
           border: none;
-          color: var(--warm-brown);
+          color: var(--warning-red);
           cursor: pointer;
-          font-size: 1.2em;
+          font-size: 1.3em;
           margin-left: 15px;
           transition: transform 0.2s ease;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
         }
 
         .cart-item-remove:hover {
           transform: scale(1.2);
+          background: rgba(231, 76, 60, 0.1);
         }
 
         .cart-total {
@@ -452,26 +500,33 @@
           font-weight: 800;
           text-align: right;
           margin-bottom: 30px;
-          color: var(--primary-dark);
+          color: var(--primary-blue);
           padding: 20px;
-          background: var(--light-cream);
+          background: var(--light-gray);
           border-radius: 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
 
         /* ===== ORDER FORM ===== */
         .order-form {
-          background: var(--light-cream);
+          background: var(--light-gray);
           padding: 30px;
           border-radius: 15px;
           border: 1px solid #e9ecef;
         }
 
         .order-form h3 {
-          color: var(--primary-dark);
+          color: var(--primary-blue);
           margin-bottom: 25px;
           font-size: 1.6em;
-          font-weight: 300;
+          font-weight: 700;
           text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
         }
 
         .form-group {
@@ -482,12 +537,15 @@
           display: block;
           margin-bottom: 8px;
           font-weight: 600;
-          color: var(--primary-dark);
+          color: var(--primary-blue);
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
 
         .form-group input, .form-group textarea {
           width: 100%;
-          padding: 15px;
+          padding: 16px;
           border: 2px solid #e9ecef;
           border-radius: 10px;
           font-size: 1em;
@@ -497,14 +555,14 @@
 
         .form-group input:focus, .form-group textarea:focus {
           outline: none;
-          border-color: var(--primary-sage);
-          box-shadow: 0 0 0 3px rgba(161, 190, 149, 0.1);
+          border-color: var(--primary-blue);
+          box-shadow: 0 0 0 3px rgba(26, 58, 95, 0.1);
         }
 
         .submit-order {
           width: 100%;
           padding: 18px;
-          background: linear-gradient(135deg, var(--warm-brown) 0%, #a84336 100%);
+          background: linear-gradient(135deg, var(--accent-gold) 0%, #c19b2e 100%);
           color: white;
           border: none;
           border-radius: 12px;
@@ -515,11 +573,17 @@
           text-transform: uppercase;
           letter-spacing: 1px;
           margin-top: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          box-shadow: 0 6px 15px rgba(212, 175, 55, 0.3);
+          min-height: 60px;
         }
 
         .submit-order:hover {
           transform: translateY(-3px);
-          box-shadow: 0 8px 25px rgba(184, 80, 66, 0.3);
+          box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
         }
 
         .submit-order:active {
@@ -571,7 +635,7 @@
         }
 
         .confirmation-header {
-          background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-sage) 100%);
+          background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%);
           color: white;
           padding: 25px 30px;
           text-align: center;
@@ -584,6 +648,10 @@
           font-size: 1.8em;
           margin-bottom: 8px;
           font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
         }
 
         .confirmation-subtitle {
@@ -596,7 +664,7 @@
         }
 
         .confirmation-number {
-          background: linear-gradient(135deg, var(--primary-sage), var(--primary-dark));
+          background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
           color: white;
           padding: 18px;
           border-radius: 12px;
@@ -626,7 +694,7 @@
         }
 
         .detail-group h4 {
-          color: var(--primary-dark);
+          color: var(--primary-blue);
           margin-bottom: 6px;
           font-size: 0.9em;
           font-weight: 600;
@@ -638,7 +706,7 @@
         }
 
         .order-summary {
-          background: var(--light-cream);
+          background: var(--light-gray);
           border-radius: 10px;
           padding: 18px;
           border: 1px solid #f0f0f0;
@@ -646,7 +714,7 @@
         }
 
         .order-summary h4 {
-          color: var(--primary-dark);
+          color: var(--primary-blue);
           margin-bottom: 12px;
           font-weight: 700;
           font-size: 1.1em;
@@ -666,7 +734,7 @@
           padding: 12px 0;
           font-weight: 800;
           font-size: 1.1em;
-          color: var(--warm-brown);
+          color: var(--accent-gold);
           border-top: 2px solid #f0f0f0;
           margin-top: 8px;
         }
@@ -675,11 +743,11 @@
           background: white;
           border-radius: 10px;
           padding: 18px;
-          border-left: 4px solid var(--primary-sage);
+          border-left: 4px solid var(--primary-blue);
         }
 
         .next-steps h3 {
-          color: var(--primary-dark);
+          color: var(--primary-blue);
           margin-bottom: 12px;
           font-weight: 700;
           font-size: 1.1em;
@@ -702,7 +770,7 @@
           content: "✓";
           position: absolute;
           left: 0;
-          color: var(--primary-sage);
+          color: var(--primary-blue);
           font-weight: bold;
         }
 
@@ -716,7 +784,7 @@
         }
 
         .btn-continue {
-          background: var(--primary-sage);
+          background: var(--primary-blue);
           color: white;
           border: none;
           padding: 14px 28px;
@@ -726,12 +794,16 @@
           cursor: pointer;
           transition: all 0.3s ease;
           width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
         }
 
         .btn-continue:hover {
-          background: var(--primary-dark);
+          background: var(--primary-light);
           transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(44, 95, 45, 0.3);
+          box-shadow: 0 5px 15px rgba(26, 58, 95, 0.3);
         }
 
         /* ===== LOADING & EMPTY STATES ===== */
@@ -744,7 +816,7 @@
 
         .loading-spinner {
           border: 4px solid #f3f3f3;
-          border-top: 4px solid var(--primary-sage);
+          border-top: 4px solid var(--primary-blue);
           border-radius: 50%;
           width: 50px;
           height: 50px;
@@ -782,6 +854,9 @@
           animation: slideIn 0.3s ease;
           max-width: 400px;
           box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+          display: flex;
+          align-items: center;
+          gap: 10px;
         }
 
         @keyframes slideIn {
@@ -845,6 +920,26 @@
             top: 15px;
             right: 15px;
           }
+          
+          .language-toggle {
+            width: 45px;
+            height: 45px;
+          }
+          
+          .category-btn {
+            min-height: 46px;
+            padding: 12px 20px;
+          }
+          
+          .quantity-btn {
+            width: 42px;
+            height: 42px;
+          }
+          
+          .add-to-cart {
+            min-height: 52px;
+            padding: 14px;
+          }
         }
 
         @media (max-width: 480px) {
@@ -861,8 +956,9 @@
           }
           
           .category-btn {
-            padding: 10px 18px;
+            padding: 10px 16px;
             font-size: 0.9em;
+            min-height: 44px;
           }
           
           .confirmation-code {
@@ -884,6 +980,28 @@
             left: auto;
             transform-origin: top right;
           }
+          
+          .language-toggle {
+            width: 44px;
+            height: 44px;
+          }
+          
+          .cart-total {
+            font-size: 1.6em;
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+          }
+          
+          .quantity-btn {
+            width: 40px;
+            height: 40px;
+          }
+          
+          .add-to-cart {
+            min-height: 50px;
+            font-size: 1em;
+          }
         }
     </style>
 </head>
@@ -892,7 +1010,7 @@
         <!-- Language Selector -->
         <div class="language-selector">
             <div class="language-toggle" id="languageToggle">
-                <span class="language-icon">🌐</span>
+                <i class="fas fa-globe language-icon"></i>
             </div>
             <div class="language-dropdown" id="languageDropdown">
                 <button class="language-option active" data-lang="en">
@@ -904,27 +1022,27 @@
                     አማርኛ
                 </button>
                 <button class="language-option" data-lang="om">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMDA2ODMzIi8+PHJlY3QgeD0iMCIgeT0iMTAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxMCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMTAiIGZpbGw9IiNmZjAwMDAiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjE1IiByPSI2IiBmaWxsPSIjMDA2ODMzIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNSIgcj0iNCIgZmlsbD0iI2ZmMDAwMCIvPjxjaXJjbGUgY3g9IjMwIiBcyY3k9IjE1IiByPSIyIiBmaWxsPSIjZmZmIi8+PC9zdmc+" alt="Oromo" class="language-flag">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMDA2ODMzIi8+PHJlY3QgeD0iMCIgeT0iMTAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxMCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjAiIHk9IjIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMTAiIGZpbGw9IiNmZjAwMDAiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjE1IiByPSI2IiBmaWxsPSIjMDA2ODMzIi8+PGNpcmNsZSBjeD0iMzQiIGN5PSIxNSIgcj0iNCIgZmlsbD0iI2ZmMDAwMCIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMTUiIHI9IjIiIGZpbGw9IiNmZmYiLz48L3N2Zz4=" alt="Oromo" class="language-flag">
                     Afaan Oromoo
                 </button>
             </div>
         </div>
 
         <div class="header">
-            <h1 data-i18n="restaurant_name">🍽️ Luxury Hotel Restaurant</h1>
+            <h1 data-i18n="restaurant_name"><i class="fas fa-utensils"></i> Luxury Hotel Restaurant</h1>
             <p data-i18n="restaurant_tagline">Exquisite Dining Experience</p>
         </div>
         
         <div class="table-info">
-            <span data-i18n="serving_table">🎯 Currently Serving: Table</span> <span id="tableNumber">1</span>
+            <span data-i18n="serving_table"><i class="fas fa-concierge-bell"></i> Currently Serving: Table</span> <span id="tableNumber">1</span>
         </div>
 
         <div class="categories">
-            <button class="category-btn active" data-category="all" data-i18n="all_menu">All Menu</button>
-            <button class="category-btn" data-category="food" data-i18n="main_course">Main Course</button>
-            <button class="category-btn" data-category="drinks" data-i18n="beverages">Beverages</button>
-            <button class="category-btn" data-category="appetizers" data-i18n="appetizers">Appetizers</button>
-            <button class="category-btn" data-category="desserts" data-i18n="desserts">Desserts</button>
+            <button class="category-btn active" data-category="all" data-i18n="all_menu"><i class="fas fa-list"></i> All Menu</button>
+            <button class="category-btn" data-category="food" data-i18n="main_course"><i class="fas fa-utensils"></i> Main Course</button>
+            <button class="category-btn" data-category="drinks" data-i18n="beverages"><i class="fas fa-glass-cheers"></i> Beverages</button>
+            <button class="category-btn" data-category="appetizers" data-i18n="appetizers"><i class="fas fa-seedling"></i> Appetizers</button>
+            <button class="category-btn" data-category="desserts" data-i18n="desserts"><i class="fas fa-ice-cream"></i> Desserts</button>
         </div>
 
         <div class="menu-items" id="menuContainer">
@@ -936,34 +1054,35 @@
 
         <div class="cart-section">
             <div class="cart-header">
-                <h2 data-i18n="your_order">🛒 Your Order</h2>
-                <button class="clear-cart" onclick="clearCart()" data-i18n="clear_cart">Clear Cart</button>
+                <h2 data-i18n="your_order"><i class="fas fa-shopping-cart"></i> Your Order</h2>
+                <button class="clear-cart" onclick="clearCart()" data-i18n="clear_cart"><i class="fas fa-trash-alt"></i> Clear Cart</button>
             </div>
             
             <div class="cart-items" id="cartItems">
                 <div class="empty-state">
-                    <div>📝</div>
+                    <i class="fas fa-clipboard-list"></i>
                     <h3 data-i18n="cart_empty">Your cart is empty</h3>
                     <p data-i18n="add_items">Add some delicious items from our menu</p>
                 </div>
             </div>
             
             <div class="cart-total">
-                <span data-i18n="total_amount">Total Amount:</span> $<span id="cartTotal">0.00</span>
+                <span data-i18n="total_amount">Total Amount:</span> 
+                <span>$<span id="cartTotal">0.00</span></span>
             </div>
 
             <div class="order-form">
-                <h3 data-i18n="complete_order">Complete Your Order</h3>
+                <h3 data-i18n="complete_order"><i class="fas fa-clipboard-check"></i> Complete Your Order</h3>
                 <div class="form-group">
-                    <label for="customerName" data-i18n="your_name">👤 Your Name (Optional)</label>
+                    <label for="customerName" data-i18n="your_name"><i class="fas fa-user"></i> Your Name (Optional)</label>
                     <input type="text" id="customerName" data-i18n-placeholder="name_placeholder" placeholder="Enter your name for the order">
                 </div>
                 <div class="form-group">
-                    <label for="specialInstructions" data-i18n="special_instructions">📝 Special Instructions</label>
+                    <label for="specialInstructions" data-i18n="special_instructions"><i class="fas fa-edit"></i> Special Instructions</label>
                     <textarea id="specialInstructions" rows="4" data-i18n-placeholder="instructions_placeholder" placeholder="Any allergies, dietary restrictions, or special requests..."></textarea>
                 </div>
                 <button class="submit-order" onclick="submitOrder()">
-                    <span data-i18n="place_order">🚀 Place Order & Notify Kitchen</span>
+                    <i class="fas fa-paper-plane"></i> <span data-i18n="place_order">Place Order & Notify Kitchen</span>
                 </button>
             </div>
         </div>
@@ -973,7 +1092,7 @@
     <div class="confirmation-modal" id="confirmationModal">
         <div class="confirmation-content">
             <div class="confirmation-header">
-                <h2 data-i18n="order_confirmed">✅ Order Confirmed!</h2>
+                <h2 data-i18n="order_confirmed"><i class="fas fa-check-circle"></i> Order Confirmed!</h2>
                 <p class="confirmation-subtitle" data-i18n="order_received">Your order has been received and the kitchen has been notified</p>
             </div>
             
@@ -1016,7 +1135,7 @@
             </div>
             
             <div class="confirmation-actions">
-                <button class="btn-continue" onclick="closeConfirmation()" data-i18n="continue_ordering">Continue Ordering</button>
+                <button class="btn-continue" onclick="closeConfirmation()" data-i18n="continue_ordering"><i class="fas fa-utensils"></i> Continue Ordering</button>
             </div>
         </div>
     </div>
@@ -1035,9 +1154,9 @@
         const translations = {
             en: {
                 // Header
-                "restaurant_name": "🍽️ Luxury Hotel Restaurant",
+                "restaurant_name": "Luxury Hotel Restaurant",
                 "restaurant_tagline": "Exquisite Dining Experience",
-                "serving_table": "🎯 Currently Serving: Table",
+                "serving_table": "Currently Serving: Table",
                 
                 // Categories
                 "all_menu": "All Menu",
@@ -1047,7 +1166,7 @@
                 "desserts": "Desserts",
                 
                 // Cart
-                "your_order": "🛒 Your Order",
+                "your_order": "Your Order",
                 "clear_cart": "Clear Cart",
                 "cart_empty": "Your cart is empty",
                 "add_items": "Add some delicious items from our menu",
@@ -1055,14 +1174,14 @@
                 
                 // Order Form
                 "complete_order": "Complete Your Order",
-                "your_name": "👤 Your Name (Optional)",
+                "your_name": "Your Name (Optional)",
                 "name_placeholder": "Enter your name for the order",
-                "special_instructions": "📝 Special Instructions",
+                "special_instructions": "Special Instructions",
                 "instructions_placeholder": "Any allergies, dietary restrictions, or special requests...",
-                "place_order": "🚀 Place Order & Notify Kitchen",
+                "place_order": "Place Order & Notify Kitchen",
                 
                 // Confirmation Modal
-                "order_confirmed": "✅ Order Confirmed!",
+                "order_confirmed": "Order Confirmed!",
                 "order_received": "Your order has been received and the kitchen has been notified",
                 "confirmation_number": "Confirmation Number",
                 "table_number": "Table Number",
@@ -1086,14 +1205,14 @@
                 "item_removed": "Item removed from cart",
                 "cart_cleared": "Cart cleared",
                 "empty_cart_warning": "Your cart is empty. Please add items before ordering.",
-                "order_success": "🎉 Order confirmed! Your confirmation number: {number}",
-                "order_failed": "❌ Failed to place order: {error}"
+                "order_success": "Order confirmed! Your confirmation number: {number}",
+                "order_failed": "Failed to place order: {error}"
             },
             am: {
                 // Header
-                "restaurant_name": "🍽️ የሆቴል ሬስቶራንት",
+                "restaurant_name": "የሆቴል ሬስቶራንት",
                 "restaurant_tagline": "የላቀ የምግብ ልምድ",
-                "serving_table": "🎯 አሁን የሚያገለግል: ማእድ",
+                "serving_table": "አሁን የሚያገለግል: ማእድ",
                 
                 // Categories
                 "all_menu": "ሁሉም መነሻ",
@@ -1103,7 +1222,7 @@
                 "desserts": "ለምግብ ተከታይ",
                 
                 // Cart
-                "your_order": "🛒 ትዕዛዝዎ",
+                "your_order": "ትዕዛዝዎ",
                 "clear_cart": "ግዢውን አጽዳ",
                 "cart_empty": "ግዢዎችዎ ባዶ ነው",
                 "add_items": "ከመነሻችን ጣፋጭ ምግቦችን ያክሉ",
@@ -1111,14 +1230,14 @@
                 
                 // Order Form
                 "complete_order": "ትዕዛዝዎን ይጨርሱ",
-                "your_name": "👤 ስምዎ (አማራጭ)",
+                "your_name": "ስምዎ (አማራጭ)",
                 "name_placeholder": "ለትዕዛዝ ስምዎን ያስገቡ",
-                "special_instructions": "📝 ልዩ መመሪያዎች",
+                "special_instructions": "ልዩ መመሪያዎች",
                 "instructions_placeholder": "ማንኛውም አለርጂ፣ የአመጋገብ ገደቦች፣ ወይም ልዩ ጥያቄዎች...",
-                "place_order": "🚀 ትዕዛዝ ለመጨረስ & ማእድ ለማሳወቅ",
+                "place_order": "ትዕዛዝ ለመጨረስ & ማእድ ለማሳወቅ",
                 
                 // Confirmation Modal
-                "order_confirmed": "✅ ትዕዛዝ ተቀባይነት አገኘ!",
+                "order_confirmed": "ትዕዛዝ ተቀባይነት አገኘ!",
                 "order_received": "ትዕዛዝዎ ተቀብሎ ለማእድ ተላልፏል",
                 "confirmation_number": "የማረጋገጫ ቁጥር",
                 "table_number": "የማእድ ቁጥር",
@@ -1142,14 +1261,14 @@
                 "item_removed": "ንጥል ከግዢ ተሰርዟል",
                 "cart_cleared": "ግዢ ተጸድቷል",
                 "empty_cart_warning": "ግዢዎችዎ ባዶ ነው። እባክዎ ከመጨረስ በፊት ንጥሎችን ያክሉ።",
-                "order_success": "🎉 ትዕዛዝ ተቀባይነት አገኘ! የማረጋገጫ ቁጥርዎ: {number}",
-                "order_failed": "❌ ትዕዛዝ ማስገባት አልተሳካም: {error}"
+                "order_success": "ትዕዛዝ ተቀባይነት አገኘ! የማረጋገጫ ቁጥርዎ: {number}",
+                "order_failed": "ትዕዛዝ ማስገባት አልተሳካም: {error}"
             },
             om: {
                 // Header
-                "restaurant_name": "🍽️ Hoteela Restoraantii",
+                "restaurant_name": "Hoteela Restoraantii",
                 "restaurant_tagline": "Experiensaa Nyaataa Gaarii",
-                "serving_table": "🎯 Amma Tajaajila: Daa'ima",
+                "serving_table": "Amma Tajaajila: Daa'ima",
                 
                 // Categories
                 "all_menu": "Menyuu Hundaa",
@@ -1159,7 +1278,7 @@
                 "desserts": "Nyaata Boodaa",
                 
                 // Cart
-                "your_order": "🛒 Dhaabbata Keessan",
+                "your_order": "Dhaabbata Keessan",
                 "clear_cart": "Dhaabbata Qulqulleessi",
                 "cart_empty": "Dhaabbataan Keessan Duwwaa Dha",
                 "add_items": "Menyuu Keenya Irraa Nyaata Mi'aawaa Dabaladhaa",
@@ -1167,14 +1286,14 @@
                 
                 // Order Form
                 "complete_order": "Dhaabbata Keessan Xumuri",
-                "your_name": "👤 Maqaa Keessan (Filannoo)",
+                "your_name": "Maqaa Keessan (Filannoo)",
                 "name_placeholder": "Dhaabbataaf Maqaa Keessan Galchaa",
-                "special_instructions": "📝 Qajeelfama Addaa",
+                "special_instructions": "Qajeelfama Addaa",
                 "instructions_placeholder": "Allergii, Cufa Nyaataa, ykn Gaafii Addaa...",
-                "place_order": "🚀 Dhaabbata Dhiheessi & Meejiraa Beeksi",
+                "place_order": "Dhaabbata Dhiheessi & Meejiraa Beeksi",
                 
                 // Confirmation Modal
-                "order_confirmed": "✅ Dhaabbataan Mirkaneeffame!",
+                "order_confirmed": "Dhaabbataan Mirkaneeffame!",
                 "order_received": "Dhaabbataan Keessan Fudhatamee Meejiraatti Darbame",
                 "confirmation_number": "Lakkoofsa Mirkaneessaa",
                 "table_number": "Lakkoofsa Daa'imaa",
@@ -1198,8 +1317,8 @@
                 "item_removed": "Wanta Dhaabbataa Irraa Haqe",
                 "cart_cleared": "Dhaabbataan Qulqulleffame",
                 "empty_cart_warning": "Dhaabbataan Keessan Duwwaa Dha. Mee Dhiyeessuu Kaanaan Dura Wanta Dabaladhaa.",
-                "order_success": "🎉 Dhaabbataan Mirkaneeffame! Lakkoofsa Mirkaneessaa Keessan: {number}",
-                "order_failed": "❌ Dhaabbata Dhiyeessuu Hin Dandeenye: {error}"
+                "order_success": "Dhaabbataan Mirkaneeffame! Lakkoofsa Mirkaneessaa Keessan: {number}",
+                "order_failed": "Dhaabbata Dhiyeessuu Hin Dandeenye: {error}"
             }
         };
 
@@ -1295,11 +1414,11 @@
                 console.error('Error loading menu:', error);
                 document.getElementById('menuContainer').innerHTML = `
                     <div class="empty-state">
-                        <div>❌</div>
+                        <i class="fas fa-exclamation-triangle"></i>
                         <h3 data-i18n="menu_unavailable">Menu Unavailable</h3>
                         <p data-i18n="technical_difficulties">We're experiencing technical difficulties. Please try again shortly.</p>
-                        <button onclick="loadMenuItems()" style="margin-top: 20px; padding: 10px 20px; background: var(--primary-sage); color: white; border: none; border-radius: 5px; cursor: pointer;">
-                            Retry
+                        <button onclick="loadMenuItems()" style="margin-top: 20px; padding: 12px 24px; background: var(--primary-blue); color: white; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; margin: 20px auto 0;">
+                            <i class="fas fa-redo"></i> Retry
                         </button>
                     </div>
                 `;
@@ -1314,7 +1433,7 @@
             if (!items || items.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div>😔</div>
+                        <i class="fas fa-sad-tear"></i>
                         <h3 data-i18n="no_items">No Items Available</h3>
                         <p data-i18n="check_back">Please check back later for our menu offerings.</p>
                     </div>
@@ -1333,12 +1452,12 @@
                     <div class="item-description">${item.description || 'Delicious selection from our kitchen'}</div>
                     <div class="item-price">$${typeof item.price === 'number' ? item.price.toFixed(2) : '0.00'}</div>
                     <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="decreaseQuantity('${item.id}')">-</button>
+                        <button class="quantity-btn" onclick="decreaseQuantity('${item.id}')"><i class="fas fa-minus"></i></button>
                         <span class="quantity-display" id="qty-${item.id}">0</span>
-                        <button class="quantity-btn" onclick="increaseQuantity('${item.id}')">+</button>
+                        <button class="quantity-btn" onclick="increaseQuantity('${item.id}')"><i class="fas fa-plus"></i></button>
                     </div>
                     <button class="add-to-cart" onclick="addToCart('${item.id}')">
-                        ➕ Add to Order
+                        <i class="fas fa-cart-plus"></i> Add to Order
                     </button>
                 </div>
             `).join('');
@@ -1412,7 +1531,7 @@
             if (cart.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div>📝</div>
+                        <i class="fas fa-clipboard-list"></i>
                         <h3 data-i18n="cart_empty">Your cart is empty</h3>
                         <p data-i18n="add_items">Add some delicious items from our menu</p>
                     </div>
@@ -1434,7 +1553,7 @@
                             <div class="cart-item-details">$${item.price.toFixed(2)} × ${item.quantity}</div>
                         </div>
                         <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
-                        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">🗑️</button>
+                        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')"><i class="fas fa-trash"></i></button>
                     </div>
                 `;
             }).join('');
@@ -1466,7 +1585,7 @@
             try {
                 const submitButton = document.querySelector('.submit-order');
                 submitButton.disabled = true;
-                submitButton.innerHTML = '⏳ ' + translateNotification('place_order');
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + translateNotification('place_order');
 
                 const response = await fetch(ORDER_WEBHOOK_URL, {
                     method: 'POST',
@@ -1514,7 +1633,7 @@
             } finally {
                 const submitButton = document.querySelector('.submit-order');
                 submitButton.disabled = false;
-                submitButton.innerHTML = '🚀 ' + translateNotification('place_order');
+                submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> ' + translateNotification('place_order');
             }
         }
 
@@ -1566,12 +1685,19 @@
 
             const notification = document.createElement('div');
             notification.className = `notification`;
-            notification.innerHTML = message;
+            
+            // Set icon based on type
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            
+            notification.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
             
             // Set background color based on type
             const bgColor = type === 'success' ? 'var(--success-green)' : 
                            type === 'error' ? 'var(--warning-red)' : 
-                           type === 'warning' ? '#f39c12' : 'var(--primary-sage)';
+                           type === 'warning' ? '#f39c12' : 'var(--primary-blue)';
             
             notification.style.background = bgColor;
             
